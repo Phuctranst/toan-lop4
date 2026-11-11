@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luyện thi Toán lớp 4 – Ôn tập vui</title>
+<style>
+:root{--bg1:#fff8e1;--bg2:#e3f6ff;--ink:#2b3a55;--blue:#4dabf7;--blue-d:#1c7ed6;--yellow:#ffe066;--green:#51cf66;--green-l:#e6fcf0;--red:#ff6b6b;--red-l:#fff0f0;--orange:#ffa94d;--orange-l:#fff4e0;--card:#fff;--line:#d9e8f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Nunito","Quicksand","Segoe UI",Tahoma,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;font-size:18px;line-height:1.55}
+header.top{background:linear-gradient(90deg,#74c0fc,#ffd43b);padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 10px #0001;position:sticky;top:0;z-index:5}
+header.top h1{margin:0;font-size:1.3rem;color:#16365c;flex:1}
+header.top button{background:#fff;border:0;border-radius:20px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer;color:var(--blue-d)}
+.wrap{max-width:900px;margin:0 auto;padding:18px 14px 80px}
+.hero{text-align:center;margin:10px 0 22px}
+.hero h2{margin:0;font-size:1.8rem}
+.hero p{margin:6px 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.ecard{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 6px 18px #4dabf722;border:3px solid transparent;transition:.2s}
+.ecard:hover{transform:translateY(-4px);border-color:var(--yellow)}
+.ecard h3{margin:0 0 6px;font-size:1.25rem}
+.ecard .big{font-size:2.4rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{background:#eef7ff;border-radius:14px;padding:2px 10px;font-size:.8rem}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:24px;padding:10px 22px;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--blue-d)}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 4px 0 #2f9e44}
+.btn.orange{background:var(--orange);box-shadow:0 4px 0 #e8590c}
+.btn.ghost{background:#fff;color:var(--blue-d);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+.bdg{display:inline-flex;align-items:center;gap:6px;background:#fff9db;border:2px solid #ffd43b;border-radius:20px;padding:3px 12px 3px 6px;margin:4px;font-weight:700;font-size:.9rem}.bdg i{font-style:normal;font-size:1.3rem}.bdg.off{filter:grayscale(1);opacity:.4;border-color:#ced4da;background:#f1f3f5}.shelf{background:#fff;border-radius:20px;padding:12px 16px;margin:20px 0;box-shadow:0 4px 12px #0000000d}.star{color:#fab005;letter-spacing:2px}.newb{background:#fff9db;border:3px dashed #fab005;border-radius:18px;padding:10px 14px;margin:10px 0;animation:pop .6s}@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}.best{font-size:.85rem;color:#868e96;margin-top:6px}
+.bar{position:sticky;top:58px;z-index:4;background:#ffffffe8;border-radius:16px;padding:8px 14px;margin:10px 0;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px #0001}
+.bar .track{flex:1;height:12px;background:#e9ecef;border-radius:8px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--yellow));transition:.3s}
+.q{background:var(--card);border-radius:20px;padding:16px 18px;margin:14px 0;box-shadow:0 4px 12px #0000000d;border-left:8px solid var(--blue)}
+.q.ok{border-left-color:var(--green);background:#fbfffc}
+.q.bad{border-left-color:var(--red);background:#fffcfc}
+.q.part{border-left-color:var(--orange);background:#fffdf8}
+.qh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.qn{background:var(--yellow);border-radius:12px;padding:1px 12px}
+.tp{font-size:.8rem;background:#eef7ff;border-radius:12px;padding:2px 10px}
+.qt{margin:8px 0}
+.opt{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:6px 0;border:2px solid var(--line);border-radius:14px;cursor:pointer;background:#fcfeff}
+.opt:hover{border-color:var(--blue)}
+.opt input{display:none}
+.opt .lt{width:30px;height:30px;border-radius:50%;background:#e7f5ff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.opt:has(input:checked){border-color:var(--blue);background:#e7f5ff}
+.opt:has(input:checked) .lt{background:var(--blue);color:#fff}
+.opt.right{border-color:var(--green)!important;background:var(--green-l)!important}
+.opt.right .lt{background:var(--green)!important;color:#fff}
+.opt.wrong{border-color:var(--red)!important;background:var(--red-l)!important}
+.opt.wrong .lt{background:var(--red)!important;color:#fff}
+.locked{pointer-events:none}
+.pick{display:flex;flex-wrap:wrap;gap:10px}
+.pick .opt{margin:0;min-width:110px;justify-content:center}
+.pick .opt.missed{border-style:dashed;border-color:var(--orange);background:var(--orange-l)}
+.tfrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;padding:6px 0;border-bottom:1px dashed var(--line)}
+.tfrow .tt{flex:1;min-width:220px}
+.tfrow .opt{margin:0;padding:4px 14px}
+.frow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.frow input,.frow select{font:inherit;font-weight:700;padding:6px 10px;border:2px solid var(--line);border-radius:12px;width:150px;text-align:center;color:var(--ink);background:#fff}
+.frow select{width:80px}
+.frow input:focus,.frow select:focus{outline:0;border-color:var(--blue)}
+.frow input.ok,.frow select.ok{border-color:var(--green);background:var(--green-l)}
+.frow input.bad,.frow select.bad{border-color:var(--red);background:var(--red-l)}
+.fb{margin-top:10px}
+.verdict{font-weight:800;margin-bottom:4px}
+.ok .verdict{color:#2b8a3e}.bad .verdict{color:#e03131}.part .verdict{color:#d9480f}
+.ex{background:#fffbe6;border:2px dashed #ffd43b;border-radius:14px;padding:8px 12px;margin-top:8px}
+.fb ul{margin:4px 0;padding-left:20px}
+.fb details{margin-top:6px;font-size:.95rem}
+.fb summary{cursor:pointer;color:var(--blue-d);font-weight:700}
+.sub{display:flex;justify-content:center;margin:26px 0}
+.result{background:#fff;border-radius:26px;padding:20px;margin:14px 0;box-shadow:0 8px 24px #4dabf733;border:4px solid var(--yellow)}
+.score{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.circle{width:130px;height:130px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:conic-gradient(var(--green) calc(var(--p)*1%),#e9ecef 0);position:relative;flex:none}
+.circle::before{content:"";position:absolute;inset:12px;background:#fff;border-radius:50%}
+.circle b,.circle span{position:relative}
+.circle b{font-size:2rem;line-height:1}
+.tbar{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+.tbar .nm{width:230px;font-weight:700}
+.tbar .tr{flex:1;min-width:120px;height:16px;background:#e9ecef;border-radius:10px;overflow:hidden}
+.tbar .tr i{display:block;height:100%}
+.good i{background:var(--green)}.mid i{background:var(--orange)}.low i{background:var(--red)}
+.tag{font-size:.85rem;border-radius:12px;padding:2px 10px;font-weight:800}
+.good .tag{background:var(--green-l);color:#2b8a3e}.mid .tag{background:var(--orange-l);color:#d9480f}.low .tag{background:var(--red-l);color:#e03131}
+.panel{border-radius:18px;padding:12px 16px;margin:10px 0}
+.panel.g{background:var(--green-l)}.panel.w{background:var(--orange-l)}
+.practice{background:#f3f0ff;border:3px dashed #b197fc;border-radius:22px;padding:14px;margin:20px 0}
+.practice h3{margin:0}
+svg.fig{display:block;margin:8px auto;max-width:100%;background:#f8fdff;border-radius:14px;border:2px solid var(--line)}
+@media print{header.top,.bar,.sub,.btn{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><span style="font-size:1.8rem">🎒</span><h1>Ôn tập Toán lớp 4 – Học mà vui</h1><button id="homeBtn" style="display:none">🏠 Trang chủ</button></header>
+<main class="wrap" id="app"></main>
+
+<script>
+/* ================= TIỆN ÍCH ================= */
+function rng(seed){let a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=(r,a,b)=>a+Math.floor(r()*(b-a+1));
+const pick=(r,a)=>a[Math.floor(r()*a.length)];
+function shuffle(r,a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'\u00a0');
+const POS=['đơn vị','chục','trăm','nghìn','chục nghìn','trăm nghìn','triệu','chục triệu','trăm triệu'];
+const CLS=p=>p<3?'đơn vị':p<6?'nghìn':'triệu';
+const TOPICS={
+ place:{name:'Hàng & lớp của số',icon:'🔢',tip:'Đếm hàng từ PHẢI sang TRÁI: đơn vị, chục, trăm | nghìn, chục nghìn, trăm nghìn | triệu… Cứ 3 hàng là 1 lớp. Giá trị của chữ số = chữ số × giá trị của hàng.'},
+ parity:{name:'Số chẵn – số lẻ & dãy số',icon:'🧩',tip:'Chỉ nhìn chữ số tận cùng: 0,2,4,6,8 là số chẵn; 1,3,5,7,9 là số lẻ. Hai số chẵn (hoặc lẻ) liên tiếp hơn kém nhau 2.'},
+ round:{name:'Làm tròn số',icon:'🎯',tip:'Muốn làm tròn đến hàng nào, hãy nhìn chữ số NGAY BÊN PHẢI hàng đó: bé hơn 5 thì giữ nguyên, từ 5 trở lên thì cộng thêm 1; các chữ số bên phải đổi thành 0.'},
+ expr:{name:'Biểu thức & tính thuận tiện',icon:'🧮',tip:'Nhân, chia làm trước – cộng, trừ làm sau; cùng cấp thì từ trái sang phải. Tính thuận tiện: ghép các số có tổng tròn chục, tròn trăm, tròn nghìn.'},
+ unit:{name:'Đổi & so sánh đơn vị đo',icon:'⚖️',tip:'1 yến = 10 kg; 1 tạ = 100 kg; 1 tấn = 1000 kg; 1 m² = 100 dm²; 1 thế kỉ = 100 năm; 1 ngày = 24 giờ. Muốn so sánh, hãy đưa về CÙNG một đơn vị.'},
+ angle:{name:'Góc & đồng hồ',icon:'📐',tip:'Góc nhọn < 90° ; góc vuông = 90° ; góc tù từ 90° đến 180° ; góc bẹt = 180°. Dùng ê ke để kiểm tra góc vuông.'},
+ calc:{name:'Đặt tính rồi tính',icon:'✏️',tip:'Cộng, trừ, nhân: viết thẳng hàng, tính từ phải sang trái, nhớ "nhớ" và "mượn". Chia: chia từ trái sang phải. Luôn thử lại bằng phép tính ngược.'},
+ area:{name:'Đơn vị đo diện tích',icon:'🟦',tip:'1 m² = 100 dm²; 1 dm² = 100 cm²; 1 cm² = 100 mm² (mỗi bậc gấp 100 lần). Diện tích hình chữ nhật = dài × rộng, cùng đơn vị.'},
+ avg:{name:'Trung bình cộng',icon:'⚖️',tip:'Trung bình cộng = tổng các số : số các số hạng. Nhớ kiểm tra lại: trung bình × số số hạng phải bằng tổng.'},
+ sumdiff:{name:'Tìm hai số khi biết tổng và hiệu',icon:'🤝',tip:'Số lớn = (tổng + hiệu) : 2; số bé = (tổng − hiệu) : 2. Luôn thử lại: hai số cộng lại bằng tổng, trừ nhau bằng hiệu.'},
+ word:{name:'Bài toán có lời văn',icon:'📖',tip:'Đọc kĩ đề, gạch chân điều đã cho và điều cần tìm. Làm từng bước nhỏ, ghi lời giải + phép tính + đáp số, nhớ đổi đơn vị ở cuối.'}
+};
+
+/* ================= TẠO CÂU HỎI ================= */
+function mcq(r,o){
+ const items=[{t:o.right[0],why:o.right[1],ok:true}],seen=new Set([o.right[0]]);
+ for(const w of o.wrong){if(!seen.has(w[0])){seen.add(w[0]);items.push({t:w[0],why:w[1]})}if(items.length==4)break}
+ const sh=shuffle(r,items);
+ return {topic:o.topic,kind:'mcq',text:o.text,svg:o.svg||'',opts:sh,ans:sh.findIndex(x=>x.ok),explain:o.explain};
+}
+function gPlaceValue(r){
+ const digs=shuffle(r,[1,2,3,4,5,6,7,8,9]).slice(0,6),n=+digs.join('');
+ const pos=R(r,1,5),d=digs[5-pos],v=d*10**pos;
+ return mcq(r,{topic:'place',text:`Giá trị của chữ số <b>${d}</b> trong số <b>${fmt(n)}</b> là:`,
+  right:[fmt(v),`Chữ số ${d} đứng ở hàng ${POS[pos]}, nên giá trị là ${d} ${POS[pos]} = ${fmt(v)}.`],
+  wrong:[[fmt(d*10**(pos-1)),`Giá trị này chỉ đúng nếu chữ số ${d} ở hàng ${POS[pos-1]}. Em đếm thiếu 1 hàng rồi!`],
+   [fmt(d*10**(pos+1)),`Giá trị này ứng với hàng ${POS[pos+1]}. Em đếm thừa 1 hàng rồi!`],
+   [String(d),`Đây chỉ là chữ số ${d}. Giá trị còn phải nhân với giá trị của hàng.`],
+   [fmt(d*10**(pos+2)),`Quá lớn: chữ số ${d} không đứng ở hàng ${POS[pos+2]}.`]],
+  explain:`Đếm hàng từ phải sang trái: đơn vị → chục → trăm → nghìn → chục nghìn → trăm nghìn. Trong ${fmt(n)}, chữ số ${d} ở hàng ${POS[pos]} nên giá trị = ${d} × ${fmt(10**pos)} = ${fmt(v)}.`});
+}
+function gPlaceClass(r){
+ const digs=shuffle(r,[1,2,3,4,5,6,7,8,9]),n=+digs.join(''),pos=R(r,3,8),d=digs[8-pos];
+ const lab=p=>`Hàng ${POS[p]}, lớp ${CLS(p)}`;
+ const otherCls=['đơn vị','nghìn','triệu'].filter(x=>x!=CLS(pos))[0];
+ const others=shuffle(r,[0,1,2,3,4,5,6,7,8].filter(x=>x!=pos));
+ const s=String(n);
+ return mcq(r,{topic:'place',text:`Chữ số <b>${d}</b> trong số <b>${fmt(n)}</b> thuộc hàng nào, lớp nào?`,
+  right:[lab(pos),`Chữ số ${d} ở hàng ${POS[pos]}; hàng này thuộc lớp ${CLS(pos)}.`],
+  wrong:[[`Hàng ${POS[pos]}, lớp ${otherCls}`,`Hàng thì đúng nhưng lớp sai: hàng ${POS[pos]} thuộc lớp ${CLS(pos)} (cứ 3 hàng gộp thành 1 lớp).`],
+   ...others.map(p=>[lab(p),`${lab(p)} là vị trí của chữ số ${digs[8-p]}, không phải chữ số ${d}.`])],
+  explain:`Tách số thành các lớp (mỗi lớp 3 chữ số, từ phải sang trái): lớp triệu «${s.slice(0,3)}», lớp nghìn «${s.slice(3,6)}», lớp đơn vị «${s.slice(6)}». Chữ số ${d} nằm trong lớp ${CLS(pos)} và ở hàng ${POS[pos]}.`});
+}
+function gBuild(r){
+ const dg=[R(r,1,9),R(r,0,9),R(r,0,9),R(r,0,9),R(r,0,9),R(r,0,9)];
+ dg[R(r,1,5)]=0; if(dg[0]==0)dg[0]=1;
+ const n=+dg.join('');
+ const names=['trăm nghìn','chục nghìn','nghìn','trăm','chục','đơn vị'];
+ const txt=dg.map((d,i)=>`${d} ${names[i]}`).join(', ');
+ const z=dg.indexOf(0,1);
+ const sw=dg.slice();[sw[0],sw[1]]=[sw[1],sw[0]];
+ const noZero=dg.filter((d,i)=>i!=z);
+ const dbl=dg.slice();dbl.splice(z,0,0);
+ const rev=dg.slice().reverse();
+ return mcq(r,{topic:'place',text:`Số gồm ${txt} là:`,
+  right:[fmt(n),`Viết lần lượt các chữ số theo thứ tự hàng từ lớn đến bé: ${dg.join(' ')}.`],
+  wrong:[[fmt(+noZero.join('')),`Em quên viết chữ số 0 ở hàng ${names[z]}. Hàng nào không có thì phải viết 0 giữ chỗ.`],
+   [fmt(+dbl.join('')),`Em viết thừa một chữ số 0 nên số có 7 chữ số.`],
+   [fmt(+sw.join('')),`Em viết nhầm thứ tự của hai hàng đầu (${names[0]} và ${names[1]}).`],
+   [fmt(+rev.join('')),`Em viết ngược thứ tự các hàng.`],
+   [fmt(n*10),`Em viết thừa một chữ số 0 ở cuối nên số có 7 chữ số.`]],
+  explain:`Viết từng hàng từ lớn đến bé, hàng nào là 0 thì viết 0 giữ chỗ: ${dg.join('')} → ${fmt(n)}.`});
+}
+function gEvenOdd(r){
+ const ev=[],od=[],all=new Set();
+ while(ev.length<3||od.length<3){const x=R(r,1000,99999);if(all.has(x))continue;all.add(x);if(x%2==0&&ev.length<3)ev.push(x);else if(x%2&&od.length<3)od.push(x)}
+ const items=shuffle(r,ev.concat(od)),askEven=r()<.5;
+ const ans=items.map((x,i)=>(x%2==0)==askEven?i:-1).filter(i=>i>=0);
+ return {topic:'parity',kind:'pick',text:`Chọn <b>tất cả các số ${askEven?'chẵn':'lẻ'}</b> trong các số sau:`,items:items.map(fmt),ans,
+  explain:`Số chẵn có chữ số tận cùng là 0, 2, 4, 6, 8; số lẻ có chữ số tận cùng là 1, 3, 5, 7, 9. Chỉ cần nhìn chữ số cuối: ${items.map(x=>`${fmt(x)} (tận cùng ${x%10} → ${x%2?'lẻ':'chẵn'})`).join('; ')}.`};
+}
+function gSeq(r){
+ const even=r()<.5,s=even?2*R(r,50,400):2*R(r,50,400)+1,seq=[0,1,2,3,4,5,6].map(i=>s+2*i);
+ const b=shuffle(r,[2,3,4,5]).slice(0,2).sort((a,c)=>a-c);
+ const shown=seq.map((x,i)=>b.includes(i)?'…':fmt(x)).join('; ');
+ return {topic:'parity',kind:'fields',text:`Nêu số ${even?'chẵn':'lẻ'} thích hợp cho mỗi chỗ chấm: <b>${shown}</b>`,
+  fields:b.map((i,k)=>({label:`Chỗ chấm thứ ${k+1}`,ans:seq[i],why:`${fmt(seq[i-1])} + 2 = ${fmt(seq[i])}`})),
+  explain:`Các số ${even?'chẵn':'lẻ'} liên tiếp hơn kém nhau 2 đơn vị. Dãy đầy đủ: ${seq.map(fmt).join('; ')}.`};
+}
+function gExtreme(r){
+ const k=R(r,4,6),lo=10**(k-1),hi=10**k;
+ const kinds=[['lẻ','bé nhất',lo+1],['chẵn','lớn nhất',hi-2],['lẻ','lớn nhất',hi-1],['chẵn','bé nhất',lo]];
+ const [par,ext,ans]=pick(r,kinds);
+ const cands=[lo,lo+1,lo+2,hi-1,hi-2,hi-3];
+ const whyFor=c=>{
+  const p=c%2?'lẻ':'chẵn';
+  if(p!=par)return `${fmt(c)} tận cùng là ${c%10} nên là số ${p}, không phải số ${par}.`;
+  return ext=='bé nhất'?`${fmt(c)} là số ${par} có ${k} chữ số nhưng còn số ${fmt(ans)} nhỏ hơn.`:`${fmt(c)} là số ${par} có ${k} chữ số nhưng còn số ${fmt(ans)} lớn hơn.`;};
+ return mcq(r,{topic:'parity',text:`Số ${par} ${ext} có <b>${k} chữ số</b> là:`,
+  right:[fmt(ans),`Là số ${par} (tận cùng ${ans%10}) và ${ext} trong các số có ${k} chữ số.`],
+  wrong:shuffle(r,cands.filter(c=>c!=ans)).map(c=>[fmt(c),whyFor(c)]),
+  explain:`Số có ${k} chữ số bé nhất là ${fmt(lo)}, lớn nhất là ${fmt(hi-1)}. ${par=='lẻ'?'Số lẻ tận cùng 1,3,5,7,9':'Số chẵn tận cùng 0,2,4,6,8'}, nên đáp án là ${fmt(ans)}.`});
+}
+function gRound(r){
+ const k=pick(r,[3,4,5]),p=10**k,n=R(r,100000,9999999),nd=Math.floor(n/10**(k-1))%10;
+ const lo=Math.floor(n/p)*p,hi=lo+p,ans=nd>=5?hi:lo,other=nd>=5?lo:hi;
+ const rd=q=>Math.round(n/q)*q;
+ return mcq(r,{topic:'round',text:`Làm tròn số <b>${fmt(n)}</b> đến hàng <b>${POS[k]}</b> được:`,
+  right:[fmt(ans),`Chữ số hàng ${POS[k-1]} là ${nd} ${nd>=5?'(từ 5 trở lên) nên làm tròn LÊN':'(bé hơn 5) nên làm tròn XUỐNG'}.`],
+  wrong:[[fmt(other),nd>=5?`Chữ số hàng ${POS[k-1]} là ${nd}, từ 5 trở lên nên phải làm tròn lên, không được bỏ đi.`:`Chữ số hàng ${POS[k-1]} là ${nd}, bé hơn 5 nên giữ nguyên, không được cộng thêm 1.`],
+   [fmt(rd(p*10)),`Đây là làm tròn đến hàng ${POS[k+1]}, không phải hàng ${POS[k]}.`],
+   [fmt(rd(p/10)),`Đây là làm tròn đến hàng ${POS[k-1]}, chưa đủ tròn đến hàng ${POS[k]}.`],
+   [fmt(ans+p),`Em đã cộng thừa 1 đơn vị của hàng ${POS[k]}.`],
+   [fmt(ans+2*p),`Số này lớn hơn kết quả đúng 2 đơn vị của hàng ${POS[k]}.`],
+   [fmt(Math.max(0,ans-p)),`Em đã bớt đi 1 đơn vị của hàng ${POS[k]}.`],
+   [fmt(n),`Đây là số ban đầu, chưa làm tròn.`]],
+  explain:`Làm tròn đến hàng ${POS[k]}: nhìn chữ số ngay bên phải, là hàng ${POS[k-1]}, đó là ${nd}. ${nd>=5?'Từ 5 trở lên → tăng chữ số hàng '+POS[k]+' thêm 1':'Bé hơn 5 → giữ nguyên chữ số hàng '+POS[k]}, các chữ số bên phải đổi thành 0. Kết quả: ${fmt(ans)}.`});
+}
+function gMaxRound(r){
+ const k=pick(r,[4,5]),p=10**k,T=p*R(r,3,40),ans=T+p/2-1;
+ return mcq(r,{topic:'round',text:`Số lớn nhất làm tròn đến hàng ${POS[k]} được <b>${fmt(T)}</b> là:`,
+  right:[fmt(ans),`${fmt(ans)} có chữ số hàng ${POS[k-1]} là 4 nên làm tròn xuống ${fmt(T)}, và đây là số lớn nhất như vậy.`],
+  wrong:[[fmt(T+p/2),`Chữ số hàng ${POS[k-1]} là 5 nên làm tròn LÊN thành ${fmt(T+p)}, không phải ${fmt(T)}.`],
+   [fmt(T+p-1),`Số này làm tròn lên thành ${fmt(T+p)}.`],
+   [fmt(T-1),`${fmt(T-1)} đúng là làm tròn được ${fmt(T)} nhưng không phải số LỚN NHẤT.`],
+   [fmt(T-p/2),`${fmt(T-p/2)} làm tròn được ${fmt(T)} nhưng là số bé nhất, không phải lớn nhất.`]],
+  explain:`Các số làm tròn được ${fmt(T)} nằm từ ${fmt(T-p/2)} đến ${fmt(T+p/2-1)}. Số lớn nhất là ${fmt(ans)}: thêm 1 nữa (${fmt(T+p/2)}) thì chữ số hàng ${POS[k-1]} là 5 và sẽ làm tròn lên.`});
+}
+function gExpr(r,t){
+ t=t||pick(r,[1,2,3]);
+ if(t==1){
+  const m=pick(r,[4,5,6,8]),q=R(r,200,900),B=m*q,A=m*R(r,1200,2500),n=R(r,100,900);
+  const ans=A-q+n,trap=(A-B)/m+n;
+  return mcq(r,{topic:'expr',text:`Tính giá trị biểu thức <b>${fmt(A)} − ${fmt(B)} : m + n</b> với m = ${m}, n = ${n}:`,
+   right:[fmt(ans),`Chia trước: ${fmt(B)} : ${m} = ${fmt(q)}; rồi tính từ trái sang phải.`],
+   wrong:[[fmt(trap),`Em đã trừ trước rồi mới chia. Phải làm phép CHIA trước phép trừ.`],[fmt(A-q),`Em quên cộng n = ${n}.`],[fmt(A-q-n),`Em nhầm dấu: ở cuối biểu thức là phép CỘNG n.`],[fmt(A-B+n),`Em quên chia ${fmt(B)} cho ${m}.`]],
+   explain:`Thay m = ${m}, n = ${n}: ${fmt(A)} − ${fmt(B)} : ${m} + ${n} = ${fmt(A)} − ${fmt(q)} + ${n} = ${fmt(A-q)} + ${n} = ${fmt(ans)}. (Chia làm trước, rồi trừ, cộng từ trái sang phải.)`});
+ }
+ if(t==2){
+  const a=R(r,100,400),x=R(r,3,9),C=a*x+R(r,500,3000),ans=C-a*x;
+  return mcq(r,{topic:'expr',text:`Giá trị của biểu thức <b>${fmt(C)} − ${a} × x</b> với x = ${x} là:`,
+   right:[fmt(ans),`Nhân trước: ${a} × ${x} = ${fmt(a*x)}, rồi lấy ${fmt(C)} trừ đi.`],
+   wrong:[[fmt((C-a)*x),`Em trừ trước rồi mới nhân. Phải làm phép NHÂN trước.`],[fmt(C+a*x),`Em nhầm dấu trừ thành dấu cộng.`],[fmt(C-a-x),`Em đã trừ ${a} và ${x} riêng, trong khi phải nhân ${a} × ${x} trước.`],[fmt(a*x),`Đây mới là kết quả phép nhân, chưa trừ vào ${fmt(C)}.`]],
+   explain:`Thay x = ${x}: ${fmt(C)} − ${a} × ${x} = ${fmt(C)} − ${fmt(a*x)} = ${fmt(ans)}.`});
+ }
+ const k=pick(r,[3,5]),P=R(r,10000,60000),m=k*R(r,1000,3000),ans=P+m/k;
+ return mcq(r,{topic:'expr',text:`Tính giá trị biểu thức <b>${fmt(P)} + m : ${k}</b> với m = ${fmt(m)}:`,
+  right:[fmt(ans),`Chia trước: ${fmt(m)} : ${k} = ${fmt(m/k)}, rồi cộng với ${fmt(P)}.`],
+  wrong:[[(P+m)%k==0?fmt((P+m)/k):fmt(P+m),`Em cộng trước rồi mới chia. Phải làm phép CHIA trước phép cộng.`],[fmt(P+m),`Em quên chia m cho ${k}.`],[fmt(m/k),`Đây mới là kết quả phép chia, chưa cộng với ${fmt(P)}.`],[fmt(P-m/k),`Em nhầm dấu cộng thành dấu trừ.`]],
+  explain:`${fmt(P)} + ${fmt(m)} : ${k} = ${fmt(P)} + ${fmt(m/k)} = ${fmt(ans)}.`});
+}
+function gConvenient(r){
+ const a=1000*R(r,1,8)+R(r,1,9)*100+R(r,1,9)*10+R(r,1,9),c=1000*R(r,1,8)+R(r,1,9)*100+R(r,1,9)*10+R(r,1,9);
+ const b=10000-a,d=10000-c,arr=shuffle(r,[[a,0],[b,0],[c,1],[d,1]]).map(x=>x[0]);
+ const pairs=[`${fmt(a)} + ${fmt(b)} = 10 000`,`${fmt(c)} + ${fmt(d)} = 10 000`];
+ return {topic:'expr',kind:'fields',text:`Tính bằng cách thuận tiện nhất: <b>${arr.map(fmt).join(' + ')}</b>`,
+  fields:[{label:'Kết quả',ans:20000}],
+  explain:`Ghép các số có tổng tròn nghìn: ${pairs.join('; ')}. Vậy kết quả = 10 000 + 10 000 = 20 000. (Tính chất giao hoán và kết hợp của phép cộng.)`};
+}
+function gUnitNum(r){
+ const t=R(r,1,6);let text,ans,unit,ex;
+ if(t==1){const a=R(r,2,9),b=R(r,1,9);ans=a*10+b;unit='kg';text=`${a} yến ${b} kg = …`;ex=`1 yến = 10 kg nên ${a} yến = ${a*10} kg; cộng thêm ${b} kg được ${ans} kg.`}
+ else if(t==2){const a=R(r,2,9),b=R(r,10,99);ans=a*100+b;unit='kg';text=`${a} tạ ${b} kg = …`;ex=`1 tạ = 100 kg nên ${a} tạ = ${a*100} kg; cộng thêm ${b} kg được ${ans} kg.`}
+ else if(t==3){const a=R(r,1,9),b=R(r,10,990);ans=a*1000+b;unit='kg';text=`${a} tấn ${b} kg = …`;ex=`1 tấn = 1000 kg nên ${a} tấn = ${fmt(a*1000)} kg; cộng thêm ${b} kg được ${fmt(ans)} kg.`}
+ else if(t==4){const a=R(r,2,15),b=R(r,10,99);ans=a*100+b;unit='dm²';text=`${a} m² ${b} dm² = …`;ex=`1 m² = 100 dm² nên ${a} m² = ${a*100} dm²; cộng thêm ${b} dm² được ${ans} dm².`}
+ else if(t==5){const a=R(r,2,9),b=R(r,10,47);ans=a*24+b;unit='giờ';text=`${a} ngày ${b} giờ = …`;ex=`1 ngày = 24 giờ nên ${a} ngày = ${a*24} giờ; cộng thêm ${b} giờ được ${ans} giờ.`}
+ else{const a=R(r,2,9);if(r()<.5){ans=a*100;unit='năm';text=`${a} thế kỉ = …`;ex=`1 thế kỉ = 100 năm nên ${a} thế kỉ = ${ans} năm.`}else{ans=a;unit='thế kỉ';text=`${a*100} năm = …`;ex=`100 năm = 1 thế kỉ nên ${a*100} năm = ${a} thế kỉ.`}}
+ return {topic:'unit',kind:'fields',text:`Điền số thích hợp: <b>${text}</b> ${unit}`,fields:[{label:'Kết quả',ans,unit}],explain:ex};
+}
+function gUnitTF(r){
+ const a=R(r,2,9),b=R(r,1,9),v=10*a+b,t1=r()<.5,c1=t1?v:a*100+b;
+ const t=R(r,2,9),c=R(r,1,9),act=t*1000+c*100,t2=r()<.5,Y=t2?act-R(r,1,9)*10-R(r,0,4):act+R(r,0,9)*10;
+ const Yt=t2?Y:(Y);
+ return {topic:'unit',kind:'tf',text:'Đúng ghi Đ, sai ghi S:',items:[
+  {text:`${a} yến ${b} kg = ${c1} kg`,ans:c1==v,why:`${a} yến ${b} kg = ${a}×10 + ${b} = ${v} kg. ${c1==v?'Khớp với đề.':`Đề ghi ${c1} kg nên sai (có thể em nhầm 1 yến = 100 kg).`}`},
+  {text:`${t} tấn ${c} tạ &gt; ${fmt(Yt)} kg`,ans:act>Yt,why:`${t} tấn ${c} tạ = ${fmt(act)} kg. So sánh ${fmt(act)} với ${fmt(Yt)}: ${act>Yt?'lớn hơn nên đúng':'không lớn hơn nên sai'}.`}],
+  explain:`Muốn kiểm tra, đổi cả hai vế về cùng một đơn vị (kg) rồi so sánh.`};
+}
+function gCompare(r){
+ const t=R(r,2,9),y=R(r,1,9),L1=t*1000+y*10,R1=L1+pick(r,[-8,-5,0,2,9,20]),a=R(r,2,9),R2=pick(r,[a*100-1,a*100,a*100+10]);
+ const cmp=(x,y)=>x>y?'>':x<y?'<':'=';
+ return {topic:'unit',kind:'fields',text:'Điền dấu &gt; ; &lt; ; = vào chỗ chấm:',fields:[
+  {pre:`${t} tấn ${y} yến`,post:`${fmt(R1)} kg`,sign:true,ans:cmp(L1,R1),why:`${t} tấn ${y} yến = ${fmt(t*1000)} + ${y*10} = ${fmt(L1)} kg; so với ${fmt(R1)} kg.`},
+  {pre:`${a} tạ`,post:`${R2} kg`,sign:true,ans:cmp(a*100,R2),why:`${a} tạ = ${a*100} kg; so với ${R2} kg.`}],
+  explain:`Đổi hai vế về cùng đơn vị (kg) rồi mới so sánh.`};
+}
+const ANG=[['góc nhọn','bé hơn góc vuông (bé hơn 90°)'],['góc vuông','bằng 90° (khít với góc của ê ke)'],['góc tù','lớn hơn góc vuông nhưng bé hơn góc bẹt (từ 90° đến 180°)'],['góc bẹt','bằng 180° (hai cạnh tạo thành một đường thẳng)']];
+const angIdx=d=>d<90?0:d==90?1:d<180?2:3;
+function svgAngle(d){
+ const ox=110,oy=115,L=90,rad=d*Math.PI/180,bx=ox+L*Math.cos(rad),by=oy-L*Math.sin(rad);
+ const rr=28,ax=ox+rr,ay=oy,cx=ox+rr*Math.cos(rad),cy=oy-rr*Math.sin(rad);
+ let mark=d==90?`<path d="M${ox+14} ${oy} V${oy-14} H${ox}" fill="none" stroke="#51cf66" stroke-width="3"/>`:`<path d="M${ax} ${ay} A${rr} ${rr} 0 0 0 ${cx.toFixed(1)} ${cy.toFixed(1)}" fill="none" stroke="#ffa94d" stroke-width="4"/>`;
+ return `<svg class="fig" viewBox="0 0 220 135" width="260"><line x1="${ox}" y1="${oy}" x2="${ox+L}" y2="${oy}" stroke="#1c7ed6" stroke-width="4" stroke-linecap="round"/><line x1="${ox}" y1="${oy}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" stroke="#1c7ed6" stroke-width="4" stroke-linecap="round"/>${mark}<g font-size="15" font-weight="700" fill="#2b3a55"><text x="${ox-5}" y="${oy+17}">O</text><text x="${ox+L+3}" y="${oy+5}">A</text><text x="${(bx+(d>=90?-16:6)).toFixed(1)}" y="${(by-4).toFixed(1)}">B</text></g></svg>`;
+}
+function gAngle(r){
+ const type=R(r,0,3),d=[R(r,20,70),90,R(r,110,160),180][type];
+ return mcq(r,{topic:'angle',svg:svgAngle(d),text:`Quan sát hình: góc đỉnh O; cạnh OA, OB là:`,
+  right:[ANG[type][0],`Góc này ${ANG[type][1]}.`],
+  wrong:shuffle(r,[0,1,2,3].filter(i=>i!=type)).map(i=>[ANG[i][0],`${ANG[i][0][0].toUpperCase()+ANG[i][0].slice(1)} là góc ${ANG[i][1]}; góc trong hình không phải như vậy.`]),
+  explain:`Em có thể đặt ê ke để so với góc vuông: nếu góc này hở HƠN góc vuông và chưa thẳng là góc tù; hở ÍT HƠN là góc nhọn; khít là góc vuông; hai cạnh thẳng hàng là góc bẹt. Đáp án: ${ANG[type][0]}.`});
+}
+function gClock(r){
+ const sets=[[1,2,10,11],[3,9],[4,5,7,8],[6]],ti=R(r,0,3),h=pick(r,sets[ti]);
+ const deg=x=>{const a=x*30;return a>180?360-a:a};
+ const wr=shuffle(r,[1,2,3,4,5,6,7,8,9,10,11].filter(x=>angIdx(deg(x))!=ti));
+ const nm=ANG[ti][0];
+ return mcq(r,{topic:'angle',text:`Đồng hồ chỉ mấy giờ (đúng) thì kim giờ và kim phút tạo thành <b>${nm}</b>?`,
+  right:[`${h} giờ`,`Lúc ${h} giờ, kim phút chỉ số 12, kim giờ chỉ số ${h}, góc tạo thành là ${deg(h)}° → ${nm}.`],
+  wrong:wr.map(x=>[`${x} giờ`,`Lúc ${x} giờ góc tạo thành là ${deg(x)}° → ${ANG[angIdx(deg(x))][0]}, không phải ${nm}.`]),
+  explain:`Mỗi số trên đồng hồ cách nhau 30°. Lúc n giờ đúng, hai kim cách nhau n × 30° (hoặc 360° − n × 30° nếu lớn hơn 180°). Từ đó: 1, 2, 10, 11 giờ → nhọn; 3, 9 giờ → vuông; 4, 5, 7, 8 giờ → tù; 6 giờ → bẹt.`});
+}
+function carries(a,b){const A=String(a).split('').reverse(),B=String(b).split('').reverse();let c=0,res=[];for(let i=0;i<Math.max(A.length,B.length);i++){const s=(+A[i]||0)+(+B[i]||0)+c;c=s>=10?1:0;if(c)res.push(POS[i])}return res}
+function borrows(a,b){const A=String(a).split('').reverse(),B=String(b).split('').reverse();let br=0,res=[];for(let i=0;i<A.length;i++){const d=(+A[i])-br-(+B[i]||0);if(d<0){br=1;res.push(POS[i])}else br=0}return res}
+function gCalc(r,ops){
+ ops=ops||['+','-','×','÷'];const L='abcd',fields=[];
+ ops.forEach((op,i)=>{let x,y,ans,why;
+  if(op=='+'){x=R(r,10000,70000);y=R(r,10000,60000);ans=x+y;const c=carries(x,y);why=c.length?`Cộng từ phải sang trái, có nhớ ở hàng: ${c.join(', ')}.`:'Cộng từ phải sang trái, không có nhớ.'}
+  else if(op=='-'){x=R(r,50000,99999);y=R(r,10000,x-5000);ans=x-y;const c=borrows(x,y);why=c.length?`Trừ từ phải sang trái, phải mượn ở hàng: ${c.join(', ')}.`:'Trừ từ phải sang trái, không phải mượn.'}
+  else if(op=='×'){x=R(r,1000,15000);y=R(r,2,9);ans=x*y;why=`Nhân từng chữ số từ phải sang trái, nhớ sang hàng trước. Thử lại: ${fmt(ans)} : ${y} = ${fmt(x)}.`}
+  else{y=R(r,2,9);ans=R(r,1000,9000);x=ans*y;why=`Chia từ trái sang phải. Thử lại: ${fmt(ans)} × ${y} = ${fmt(x)}.`}
+  fields.push({label:`${L[i]}) ${fmt(x)} ${op=='-'?'−':op} ${y}`.replace(`${fmt(x)} ${op=='-'?'−':op} ${y}`,`${fmt(x)} ${op=='-'?'−':op} ${fmt(y)}`),ans,why});});
+ return {topic:'calc',kind:'fields',text:'Đặt tính rồi tính (viết kết quả vào ô):',fields,explain:'Luôn viết các chữ số thẳng hàng, tính từ phải sang trái (phép chia thì từ trái sang phải) và thử lại bằng phép tính ngược để tự kiểm tra.'};
+}
+function gWord(r){
+ const [who,verb,item]=pick(r,[['Một nhà máy đường','sản xuất được','đường'],['Một cửa hàng lương thực','bán được','gạo'],['Một trạm thu mua','thu mua được','cà phê']]);
+ const D1=200*R(r,5,12),d=100*R(r,1,5),D2=D1/2,D3=D2+d,T=D1+D2+D3;
+ return {topic:'word',kind:'fields',text:`${who}, ngày thứ nhất ${verb} ${fmt(D1)} kg ${item}, ngày thứ hai ${verb} số ${item} bằng một nửa ngày thứ nhất và ít hơn ngày thứ ba ${d} kg. Hỏi cả ba ngày ${verb} bao nhiêu <b>tạ</b> ${item}? <br><i>Làm từng bước:</i>`,
+  fields:[
+   {label:'Ngày thứ hai',ans:D2,unit:'kg',why:`${fmt(D1)} : 2 = ${fmt(D2)} kg`},
+   {label:'Ngày thứ ba',ans:D3,unit:'kg',why:`Ngày thứ hai ÍT HƠN ngày thứ ba ${d} kg ⇒ ngày thứ ba NHIỀU HƠN: ${fmt(D2)} + ${d} = ${fmt(D3)} kg`},
+   {label:'Cả ba ngày',ans:T,unit:'kg',why:`${fmt(D1)} + ${fmt(D2)} + ${fmt(D3)} = ${fmt(T)} kg`},
+   {label:'Đổi ra tạ (đáp số)',ans:T/100,unit:'tạ',why:`${fmt(T)} kg : 100 = ${T/100} tạ (1 tạ = 100 kg)`}],
+  explain:`Bước 1: tìm ngày hai (một nửa ngày một). Bước 2: "ít hơn ngày thứ ba" nghĩa là ngày ba nhiều hơn ngày hai, nên ta CỘNG. Bước 3: cộng ba ngày. Bước 4: đổi kg ra tạ. Đáp số: ${T/100} tạ.`};
+}
+function svgProtractor(d){
+ const cx=160,cy=150,Ro=125,P=(a,r)=>[cx+r*Math.cos(a*Math.PI/180),cy-r*Math.sin(a*Math.PI/180)];
+ let s=`<svg class="fig" viewBox="0 0 330 185" width="420"><path d="M${cx-Ro} ${cy} A${Ro} ${Ro} 0 0 1 ${cx+Ro} ${cy} Z" fill="#e7f5ff" stroke="#74c0fc" stroke-width="2"/><path d="M${cx-62} ${cy} A62 62 0 0 1 ${cx+62} ${cy}" fill="#fff" stroke="#a5d8ff"/>`;
+ for(let a=0;a<=180;a+=5){const big=a%10==0,[x1,y1]=P(a,Ro),[x2,y2]=P(a,Ro-(big?10:5));s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#4c6a92" stroke-width="${big?1.3:.7}"/>`}
+ for(let a=0;a<=180;a+=10){const [x,y]=P(a,Ro-20),[u,v]=P(a,Ro-36);
+  s+=`<text x="${x.toFixed(1)}" y="${(y+3).toFixed(1)}" font-size="9" text-anchor="middle" fill="#1c7ed6" font-weight="700">${a}</text><text x="${u.toFixed(1)}" y="${(v+3).toFixed(1)}" font-size="8" text-anchor="middle" fill="#e8590c">${180-a}</text>`}
+ const [px,py]=P(d,Ro+20);
+ s+=`<line x1="${cx}" y1="${cy}" x2="${cx+Ro+25}" y2="${cy}" stroke="#2b3a55" stroke-width="3"/><line x1="${cx}" y1="${cy}" x2="${px.toFixed(1)}" y2="${py.toFixed(1)}" stroke="#2b3a55" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#e03131"/><g font-size="16" font-weight="800" fill="#2b3a55"><text x="${cx-6}" y="${cy+18}">M</text><text x="${cx+Ro+20}" y="${cy+18}">N</text><text x="${(px+(d>90?-14:4)).toFixed(1)}" y="${(py-3).toFixed(1)}">P</text></g></svg>`;
+ return s;
+}
+function gProtractor(r){
+ const d=10*R(r,2,16),o=180-d;
+ return mcq(r,{topic:'angle',svg:svgProtractor(d),text:'Dùng thước đo góc: góc đỉnh M, cạnh MN, MP có số đo là:',
+  right:[d+'°',`Cạnh MN đi qua vạch 0 của thang <b>xanh</b> (thang ngoài) nên đọc số đo ở thang này: cạnh MP chỉ vạch ${d}.`],
+  wrong:[[o+'°',`${o}° là số đọc ở thang <b>cam</b> (thang trong). Thang này bắt đầu từ 0 ở bên trái, nhưng cạnh MN nằm bên phải nên em đọc nhầm thang rồi.`],
+   [(d+10)+'°',`Em đọc lệch một vạch (10°). Hãy nhìn thật kĩ vạch mà cạnh MP đi qua.`],
+   [(d-10)+'°',`Em đọc lệch một vạch (10°). Hãy nhìn thật kĩ vạch mà cạnh MP đi qua.`],
+   ['180°',`180° là góc bẹt (hai cạnh thẳng hàng), còn góc này nhỏ hơn.`]],
+  explain:`Cách đo: (1) đặt tâm thước trùng đỉnh M; (2) đặt vạch 0 của thước trùng cạnh MN; (3) đọc số ở vạch mà cạnh MP đi qua, trên thang có vạch 0 nằm ở cạnh MN. Ở đây số đo là ${d}°, đó là góc ${ANG[angIdx(d)][0]}.`});
+}
+function svgSetSquare(d){
+ const ax=70,ay=150,P=(a,l)=>[ax+l*Math.cos(a*Math.PI/180),ay-l*Math.sin(a*Math.PI/180)];
+ const [nx,ny]=P(d,130),[lx,ly]=P(d,60);
+ let s=`<svg class="fig" viewBox="0 0 330 185" width="420"><polygon points="${ax},${ay} ${ax+110},${ay} ${ax},${ay-110}" fill="#ffe3b3" stroke="#f08c00" stroke-width="2" opacity=".85"/><polygon points="${ax+10},${ay-10} ${ax+55},${ay-10} ${ax+10},${ay-55}" fill="#f8fdff" stroke="#f08c00" stroke-width="1.5"/>`;
+ s+=`<path d="M${ax+14} ${ay} V${ay-14} H${ax}" fill="none" stroke="#e8590c" stroke-width="2"/>`;
+ s+=`<line x1="${ax}" y1="${ay}" x2="${ax+230}" y2="${ay}" stroke="#2b3a55" stroke-width="3"/><line x1="${ax}" y1="${ay}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#2b3a55" stroke-width="3"/>`;
+ s+=`<g font-size="16" font-weight="800" fill="#2b3a55"><text x="${ax-18}" y="${ay+16}">A</text><text x="${ax+236}" y="${ay+5}">C</text><text x="${(nx+6).toFixed(1)}" y="${(ny-4).toFixed(1)}">N</text></g></svg>`;
+ return s;
+}
+function gSetSquare(r){
+ const t=R(r,0,2),d=[R(r,25,70),R(r,105,150),90][t],type=angIdx(d);
+ const why=[`Cạnh AN nằm TRONG góc vuông của ê ke (hở ít hơn góc vuông) nên là góc nhọn.`,`Cạnh AN nằm NGOÀI góc vuông của ê ke (hở nhiều hơn góc vuông) nhưng chưa thành đường thẳng nên là góc tù.`,`Cạnh AN trùng với cạnh góc vuông của ê ke nên là góc vuông.`][t];
+ return mcq(r,{topic:'angle',svg:svgSetSquare(d),text:'Dùng ê ke (góc vuông màu cam) để kiểm tra. Góc đỉnh A, cạnh AN, AC là:',
+  right:[ANG[type][0][0].toUpperCase()+ANG[type][0].slice(1),why],
+  wrong:shuffle(r,[0,1,2,3].filter(i=>i!=type)).map(i=>[ANG[i][0][0].toUpperCase()+ANG[i][0].slice(1),`${ANG[i][0][0].toUpperCase()+ANG[i][0].slice(1)} là góc ${ANG[i][1]}; so với ê ke thì góc trong hình không như vậy.`]),
+  explain:`Đặt đỉnh góc ê ke trùng đỉnh A và một cạnh ê ke trùng AC. Nếu cạnh AN nằm trong góc vuông của ê ke → góc nhọn; trùng cạnh còn lại → góc vuông; nằm ngoài → góc tù (hai cạnh thẳng hàng thì là góc bẹt). ${why}`});
+}
+function gAreaConv(r){
+ const [big,small,k,lab]=pick(r,[['m²','dm²',100],['dm²','cm²',100],['cm²','mm²',100]]);
+ const a=R(r,2,19),ans=a*k;
+ return mcq(r,{topic:'area',text:`Đổi <b>${a} ${big} = … ${small}</b>. Số thích hợp điền vào chỗ chấm là:`,
+  right:[fmt(ans),`1 ${big} = ${k} ${small} nên ${a} ${big} = ${a} × ${k} = ${fmt(ans)} ${small}.`],
+  wrong:[[fmt(a*10),`Em nhầm 1 ${big} = 10 ${small}. Đó là đổi đơn vị độ dài; với diện tích, mỗi bậc gấp 100 lần.`],
+   [fmt(a*1000),`1 ${big} chỉ bằng 100 ${small}, không phải 1 000.`],
+   [String(a),`Em chưa đổi đơn vị.`],
+   [fmt(a*10000),`Em nhân quá nhiều: 1 ${big} = 100 ${small}.`]],
+  explain:`Hai đơn vị diện tích liền nhau hơn kém nhau 100 lần (vì diện tích = dài × rộng, mà mỗi cạnh gấp 10 lần). 1 m² = 100 dm²; 1 dm² = 100 cm²; 1 cm² = 100 mm². Vậy ${a} ${big} = ${fmt(ans)} ${small}.`});
+}
+function gRect(r){
+ const a=R(r,12,60),b=R(r,5,a-1),S=a*b;
+ return {topic:'area',kind:'fields',text:`Một hình chữ nhật có chiều dài <b>${a} dm</b>, chiều rộng <b>${b} dm</b>. Tính diện tích hình chữ nhật đó:`,
+  fields:[{label:'Diện tích',ans:S,unit:'dm²',why:`${a} × ${b} = ${fmt(S)} dm²`},{label:'Đổi ra cm²',ans:S*100,unit:'cm²',why:`${fmt(S)} × 100 = ${fmt(S*100)} cm² (1 dm² = 100 cm²)`}],
+  explain:`Diện tích hình chữ nhật = chiều dài × chiều rộng (cùng đơn vị). Đơn vị diện tích là dm², sau đó đổi sang cm² bằng cách nhân 100.`};
+}
+function gAvg(r){
+ const n=pick(r,[3,4]),A=R(r,20,90)*(r()<.5?1:10),d=[];let s=0;
+ for(let i=0;i<n-1;i++){const x=A+R(r,-15,15);d.push(x);s+=x}d.push(A*n-s);
+ const sh=shuffle(r,d),sum=A*n;
+ if(r()<.5)return mcq(r,{topic:'avg',text:`Trung bình cộng của các số <b>${sh.map(fmt).join('; ')}</b> là:`,
+  right:[fmt(A),`Tổng các số là ${fmt(sum)}, có ${n} số nên trung bình cộng là ${fmt(sum)} : ${n} = ${fmt(A)}.`],
+  wrong:[[fmt(sum),`Đây mới là TỔNG. Muốn tìm trung bình cộng còn phải chia cho số các số hạng (${n}).`],
+   [fmt(A+10),`Em tính sai khi cộng hoặc khi chia. Hãy thử lại: ${fmt(A+10)} × ${n} = ${fmt((A+10)*n)}, khác tổng ${fmt(sum)}.`],
+   [fmt(A-10),`Em tính sai: ${fmt(A-10)} × ${n} = ${fmt((A-10)*n)}, khác tổng ${fmt(sum)}.`],
+   [fmt(Math.round(sum/(n+1))),`Em chia cho ${n+1}, nhưng chỉ có ${n} số nên phải chia cho ${n}.`]],
+  explain:`Trung bình cộng = (tổng các số) : (số các số hạng). Tổng = ${sh.map(fmt).join(' + ')} = ${fmt(sum)}; chia cho ${n} được ${fmt(A)}. Kiểm tra: ${fmt(A)} × ${n} = ${fmt(sum)}.`});
+ return {topic:'avg',kind:'fields',text:`${n} bạn nhặt được lần lượt <b>${sh.map(fmt).join('; ')} nhãn vở</b>. Hỏi trung bình mỗi bạn nhặt được bao nhiêu nhãn vở?`,
+  fields:[{label:'Tổng số nhãn vở',ans:sum,why:sh.map(fmt).join(' + ')+' = '+fmt(sum)},{label:'Trung bình mỗi bạn',ans:A,unit:'nhãn vở',why:`${fmt(sum)} : ${n} = ${fmt(A)}`}],
+  explain:`Bước 1: tìm tổng. Bước 2: lấy tổng chia cho số bạn (${n}).`};
+}
+function gSumDiff(r){
+ const sm=R(r,50,400),bg=sm+R(r,20,300),S=bg+sm,D=bg-sm;
+ return {topic:'sumdiff',kind:'fields',text:`Hai thùng dầu chứa tất cả <b>${fmt(S)} lít</b>. Thùng thứ nhất chứa nhiều hơn thùng thứ hai <b>${fmt(D)} lít</b>. Hỏi mỗi thùng chứa bao nhiêu lít dầu?`,
+  fields:[{label:'Thùng thứ nhất (nhiều hơn)',ans:bg,unit:'lít',why:`(${fmt(S)} + ${fmt(D)}) : 2 = ${fmt(S+D)} : 2 = ${fmt(bg)}`},{label:'Thùng thứ hai (ít hơn)',ans:sm,unit:'lít',why:`(${fmt(S)} − ${fmt(D)}) : 2 = ${fmt(S-D)} : 2 = ${fmt(sm)}  (hoặc ${fmt(bg)} − ${fmt(D)})`}],
+  explain:`Biết tổng và hiệu: số lớn = (tổng + hiệu) : 2; số bé = (tổng − hiệu) : 2. Kiểm tra: ${fmt(bg)} + ${fmt(sm)} = ${fmt(S)} và ${fmt(bg)} − ${fmt(sm)} = ${fmt(D)}.`};
+}
+const GENS={place:[gPlaceValue,gPlaceClass,gBuild],parity:[gEvenOdd,gSeq,gExtreme],round:[gRound,gMaxRound],expr:[gExpr,gConvenient],unit:[gUnitNum,gUnitTF,gCompare],angle:[gAngle,gClock,gProtractor,gSetSquare],calc:[gCalc],word:[gWord],area:[gAreaConv,gRect],avg:[gAvg],sumdiff:[gSumDiff]};
+
+/* ================= BA ĐỀ ================= */
+const EXAMS=[
+ {id:1,icon:'🌱',title:'Đề 1 – Khởi động',desc:'Hàng & lớp, làm tròn, biểu thức, đổi đơn vị, góc, đặt tính, bài toán lời văn.',seed:1100,
+  plan:[[gPlaceValue],[gPlaceClass],[gEvenOdd],[gRound],[gExpr,1],[gProtractor],[gClock],[gUnitNum],[gUnitTF],[gCalc],[gWord],[gConvenient],[gAreaConv],[gAvg]]},
+ {id:2,icon:'🌟',title:'Đề 2 – Chắc tay',desc:'Viết số, dãy số, làm tròn nâng cao, so sánh đơn vị đo, góc, đặt tính.',seed:2200,
+  plan:[[gBuild],[gPlaceClass],[gSeq],[gRound],[gMaxRound],[gExpr,2],[gUnitNum],[gCompare],[gSetSquare],[gCalc],[gWord],[gExtreme],[gRect],[gSumDiff]]},
+ {id:3,icon:'🚀',title:'Đề 3 – Thử thách',desc:'Tổng hợp mức khó hơn: số chẵn/lẻ đặc biệt, làm tròn tìm số lớn nhất, biểu thức, tính thuận tiện.',seed:3300,
+  plan:[[gPlaceValue],[gExtreme],[gProtractor],[gRound],[gMaxRound],[gExpr,3],[gClock],[gUnitNum],[gUnitTF],[gCalc],[gConvenient],[gWord],[gAvg],[gSumDiff],[gRect]]}
+];
+function makeExam(ex,variant){return ex.plan.map((p,i)=>p[0](rng(ex.seed+variant*1000+i*7919),p[1]))}
+/*DOM*/
+</script>
+<script>
+/* ================= GIAO DIỆN ================= */
+const app=document.getElementById('app'),homeBtn=document.getElementById('homeBtn');
+const norm=s=>String(s).replace(/[\s.,\u00a0]/g,'');
+const h=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+let S={ex:null,variant:0,qs:[],done:false};
+const best=id=>+localStorage.getItem('toan4_best_'+id)||null;
+const stars=s=>s>=9?3:s>=7?2:s>=5?1:0;
+const starTxt=n=>'★'.repeat(n)+'☆'.repeat(3-n);
+const BADGE={first:['🎒','Bước đầu tiên','Hoàn thành 1 đề'],pro:['🏆','Xuất sắc','Đạt từ 9 điểm trở lên'],full:['💯','Điểm 10','Đạt 10 điểm tròn'],all:['🌈','Chinh phục 3 đề','Hoàn thành cả 3 đề'],improve:['📈','Tiến bộ','Làm lại và đạt điểm cao hơn lần trước'],practice:['💪','Chăm luyện','Đạt từ 70% bài củng cố']};
+Object.keys(TOPICS).forEach(k=>BADGE['m_'+k]=[TOPICS[k].icon,'Giỏi: '+TOPICS[k].name,'Làm đúng hết các câu của phần này']);
+const myBadges=()=>{try{return JSON.parse(localStorage.getItem('toan4_badges')||'[]')}catch(e){return[]}};
+function award(ids){const have=myBadges(),nw=ids.filter(i=>BADGE[i]&&!have.includes(i));if(nw.length)localStorage.setItem('toan4_badges',JSON.stringify(have.concat(nw)));return nw}
+const badgeHTML=(ids,all)=>Object.keys(BADGE).filter(i=>all||ids.includes(i)).map(i=>`<span class="bdg ${ids.includes(i)?'':'off'}" title="${BADGE[i][2]}"><i>${BADGE[i][0]}</i>${BADGE[i][1]}</span>`).join('');
+
+function home(){
+ homeBtn.style.display='none';app.innerHTML='';
+ app.append(h('div','hero',`<div style="font-size:3rem">📚✨</div><h2>Chào bạn! Chọn một đề để luyện nhé</h2><p>Mỗi đề có 14–15 câu. Làm xong bấm <b>Nộp bài</b> để xem điểm, lời giải và bài luyện tập riêng cho bạn.</p>`));
+ const g=h('div','grid');
+ EXAMS.forEach(ex=>{
+  const topics=[...new Set(ex.plan.map(p=>p[0](rng(1),p[1]).topic))];
+  const c=h('div','ecard',`<div class="big">${ex.icon}</div><h3>${ex.title}</h3><div>${ex.desc}</div><div class="chips">${topics.map(t=>`<span class="chip">${TOPICS[t].icon} ${TOPICS[t].name}</span>`).join('')}</div><button class="btn">Bắt đầu ▶</button><div class="best">${best(ex.id)!=null?'🏆 Điểm cao nhất: '+best(ex.id)+'/10':'Chưa làm lần nào'}</div><div class="star">${starTxt(stars(best(ex.id)||0))}</div>`);
+  c.querySelector('button').onclick=()=>start(ex,0);g.append(c);
+ });
+ app.append(g);
+ const mb=myBadges();app.append(h('div','shelf',`<b>🎖️ Bộ sưu tập huy hiệu (${mb.length}/${Object.keys(BADGE).length})</b><div>${badgeHTML(mb,true)}</div><div class="best">Di chuột vào huy hiệu để xem cách nhận.</div>`));
+}
+homeBtn.onclick=home;
+
+function start(ex,variant){
+ S={ex,variant,qs:makeExam(ex,variant),done:false};
+ homeBtn.style.display='';app.innerHTML='';window.scrollTo(0,0);
+ app.append(h('div','hero',`<h2>${ex.icon} ${ex.title}${variant?' (số liệu mới #'+variant+')':''}</h2><p>Khoanh/chọn/điền đáp án. Cố gắng hết sức nhé! 💪</p>`));
+ const bar=h('div','bar',`<b id="pc">0/${S.qs.length}</b><div class="track"><div class="fill" id="pf"></div></div><span>câu đã làm</span>`);
+ app.append(bar);
+ const list=h('div');list.id='qs';app.append(list);
+ S.qs.forEach((q,i)=>renderQ(q,i,list,'e'));
+ const sub=h('div','sub','<button class="btn green" id="submit">✅ Nộp bài</button>');app.append(sub);
+ document.getElementById('submit').onclick=submit;
+ app.addEventListener('input',upd);app.addEventListener('change',upd);
+}
+function upd(){
+ if(S.done)return;const n=S.qs.filter(q=>q.answered()).length;
+ document.getElementById('pc').textContent=n+'/'+S.qs.length;document.getElementById('pf').style.width=(100*n/S.qs.length)+'%';
+}
+const L4='ABCD';
+function renderQ(q,i,host,pre){
+ const id=pre+i,card=h('section','q',`<div class="qh"><b class="qn">Câu ${i+1}</b><span class="tp">${TOPICS[q.topic].icon} ${TOPICS[q.topic].name}</span></div><p class="qt">${q.text}</p>${q.svg||''}<div class="qb"></div><div class="fb"></div>`);
+ const b=card.querySelector('.qb');q.card=card;
+ if(q.kind=='mcq'){
+  q.opts.forEach((o,k)=>b.append(h('label','opt',`<input type="radio" name="${id}" value="${k}"><span class="lt">${L4[k]}</span><span>${o.t}</span>`)));
+  q.read=()=>{const c=b.querySelector('input:checked');return c?+c.value:null};
+  q.answered=()=>q.read()!==null;
+  q.grade=()=>{const u=q.read();return{score:u===q.ans?1:0,user:u}};
+ }else if(q.kind=='pick'){
+  const w=h('div','pick');q.items.forEach((t,k)=>w.append(h('label','opt',`<input type="checkbox" value="${k}"><span>${t}</span>`)));b.append(w);
+  q.read=()=>[...w.querySelectorAll('input:checked')].map(x=>+x.value);
+  q.answered=()=>q.read().length>0;
+  q.grade=()=>{const u=q.read(),hit=u.filter(x=>q.ans.includes(x)).length,wrong=u.length-hit;return{score:Math.max(0,(hit-wrong)/q.ans.length),user:u}};
+ }else if(q.kind=='tf'){
+  q.items.forEach((it,k)=>b.append(h('div','tfrow',`<span class="tt">${'ab'[k]}) ${it.text}</span><label class="opt"><input type="radio" name="${id}_${k}" value="1"><span>Đ</span></label><label class="opt"><input type="radio" name="${id}_${k}" value="0"><span>S</span></label>`)));
+  q.read=()=>q.items.map((_,k)=>{const c=b.querySelector(`input[name="${id}_${k}"]:checked`);return c?c.value=='1':null});
+  q.answered=()=>q.read().every(x=>x!==null);
+  q.grade=()=>{const u=q.read();return{score:u.filter((x,k)=>x===q.items[k].ans).length/q.items.length,user:u}};
+ }else{
+  q.fields.forEach((f,k)=>{
+   const row=h('div','frow');
+   if(f.sign){row.innerHTML=`<span>${f.pre}</span><select data-k="${k}"><option value="">?</option><option>&gt;</option><option>&lt;</option><option>=</option></select><span>${f.post}</span>`}
+   else row.innerHTML=`${f.label?`<span>${f.label}:</span>`:''}<input inputmode="numeric" autocomplete="off" data-k="${k}" placeholder="…"><span>${f.unit||''}</span>`;
+   b.append(row);});
+  q.read=()=>[...b.querySelectorAll('[data-k]')].map(x=>x.value.trim());
+  q.answered=()=>q.read().every(x=>x!=='');
+  q.grade=()=>{const u=q.read();return{score:u.filter((x,k)=>q.fields[k].sign?x===q.fields[k].ans:norm(x)===norm(q.fields[k].ans)).length/q.fields.length,user:u}};
+ }
+ host.append(card);
+}
+function reveal(q,g){
+ const card=q.card,fb=card.querySelector('.fb'),b=card.querySelector('.qb');
+ const cls=g.score>=.999?'ok':g.score<=0?'bad':'part';card.classList.add(cls);b.classList.add('locked');
+ const head=cls=='ok'?'✅ Chính xác! Giỏi lắm!':cls=='bad'?'❌ Chưa đúng. Cùng xem lý do nhé:':`🟡 Đúng một phần (${Math.round(g.score*100)}%). Xem phần còn thiếu:`;
+ let det='';
+ if(q.kind=='mcq'){
+  const labs=b.querySelectorAll('.opt');labs[q.ans].classList.add('right');
+  if(g.user!==null&&g.user!==q.ans)labs[g.user].classList.add('wrong');
+  det=g.user===null?`<p>Em chưa chọn đáp án.</p>`:g.user!==q.ans?`<p>Em chọn <b>${L4[g.user]}. ${q.opts[g.user].t}</b>: ${q.opts[g.user].why}</p>`:'';
+  det+=`<p>✔ Đáp án đúng <b>${L4[q.ans]}. ${q.opts[q.ans].t}</b>: ${q.opts[q.ans].why}</p>`;
+  det+=`<details><summary>Vì sao các đáp án khác sai?</summary><ul>${q.opts.map((o,k)=>k==q.ans?'':`<li><b>${L4[k]}. ${o.t}</b> – ${o.why}</li>`).join('')}</ul></details>`;
+ }else if(q.kind=='pick'){
+  const labs=b.querySelectorAll('.opt');
+  labs.forEach((l,k)=>{const sel=g.user.includes(k),should=q.ans.includes(k);if(sel&&should)l.classList.add('right');else if(sel)l.classList.add('wrong');else if(should)l.classList.add('missed')});
+  det=`<p>Màu xanh: chọn đúng · Màu đỏ: chọn nhầm · Viền cam: bị bỏ sót.</p>`;
+ }else if(q.kind=='tf'){
+  det='<ul>'+q.items.map((it,k)=>{const u=g.user[k],ok=u===it.ans;return`<li>${'ab'[k]}) ${ok?'✔':'✘'} Em chọn ${u===null?'(bỏ trống)':u?'Đ':'S'}; đáp án <b>${it.ans?'Đ':'S'}</b>. ${it.why}</li>`}).join('')+'</ul>';
+ }else{
+  const els=b.querySelectorAll('[data-k]');
+  det='<ul>'+q.fields.map((f,k)=>{const ok=f.sign?g.user[k]===f.ans:norm(g.user[k])===norm(f.ans);els[k].classList.add(ok?'ok':'bad');els[k].disabled=true;
+   return`<li>${ok?'✔':'✘'} ${f.sign?f.pre+' … '+f.post:(f.label||'Kết quả')}: em điền <b>${g.user[k]||'(trống)'}</b>${ok?'':` → đáp án <b>${f.sign?f.ans:fmt(f.ans)}${f.unit?' '+f.unit:''}</b>`}${f.why?` — ${f.why}`:''}</li>`}).join('')+'</ul>';
+ }
+ fb.innerHTML=`<div class="verdict">${head}</div>${det}<div class="ex">💡 <b>Giải thích:</b> ${q.explain}</div>`;
+}
+function summarize(qs,gs){
+ const t={};qs.forEach((q,i)=>{const o=t[q.topic]||(t[q.topic]={got:0,n:0});o.got+=gs[i].score;o.n++});return t;
+}
+function submit(){
+ const un=S.qs.filter(q=>!q.answered()).length;
+ if(un&&!confirm(`Còn ${un} câu chưa làm xong. Em vẫn muốn nộp bài chứ?`))return;
+ S.done=true;
+ const gs=S.qs.map(q=>q.grade());S.qs.forEach((q,i)=>reveal(q,gs[i]));
+ const total=gs.reduce((a,g)=>a+g.score,0),score=Math.round(total/S.qs.length*100)/10;
+ const prev=best(S.ex.id);const nb=[];if(prev==null)nb.push('first');else if(score>prev)nb.push('improve');if(score>=9)nb.push('pro');if(score>=10)nb.push('full');if(!best(S.ex.id)||score>best(S.ex.id))localStorage.setItem('toan4_best_'+S.ex.id,score);
+ const t=summarize(S.qs,gs);Object.keys(t).forEach(k=>{if(t[k].got>=t[k].n-.001)nb.push('m_'+k)});if(EXAMS.every(e=>best(e.id)!=null))nb.push('all');const newB=award(nb);const keys=Object.keys(t).map(k=>({k,p:t[k].got/t[k].n}));
+ const good=keys.filter(x=>x.p>=.8),mid=keys.filter(x=>x.p>=.5&&x.p<.8),low=keys.filter(x=>x.p<.5),weak=low.concat(mid);
+ const msg=score>=9?'🏆 Xuất sắc! Em thật tuyệt vời!':score>=8?'🌟 Giỏi lắm! Chỉ cần chú ý thêm một chút nữa thôi.':score>=6.5?'👍 Khá tốt! Em hãy xem lại các phần bên dưới.':score>=5?'🙂 Em đã cố gắng! Hãy ôn lại những phần còn yếu nhé.':'💪 Đừng nản! Đọc lời giải và luyện tập thêm, em sẽ tiến bộ nhanh thôi.';
+ const row=x=>{const c=x.p>=.8?'good':x.p>=.5?'mid':'low',lb=x.p>=.8?'Tốt':x.p>=.5?'Cần chú ý':'Cần ôn thêm';return`<div class="tbar ${c}"><span class="nm">${TOPICS[x.k].icon} ${TOPICS[x.k].name}</span><div class="tr"><i style="width:${Math.max(4,x.p*100)}%"></i></div><span class="tag">${lb} · ${Math.round(t[x.k].got*10)/10}/${t[x.k].n}</span></div>`};
+ const res=h('div','result',`<div class="score"><div class="circle" style="--p:${score*10}"><b>${score}</b><span>/ 10 điểm</span></div><div><h2 style="margin:0">${msg}</h2><p style="margin:4px 0">Đúng hoàn toàn: ${gs.filter(g=>g.score>=.999).length}/${S.qs.length} câu · 🏆 Điểm cao nhất: ${best(S.ex.id)}/10</p></div></div>
+ <h3>📊 Kết quả theo từng phần</h3>${keys.map(row).join('')}
+ ${good.length?`<div class="panel g"><b>😀 Em làm tốt:</b> ${good.map(x=>TOPICS[x.k].name).join('; ')}. Hãy tiếp tục giữ vững nhé!</div>`:''}
+ ${weak.length?`<div class="panel w"><b>🧐 Em cần rút kinh nghiệm:</b><ul>${weak.map(x=>`<li><b>${TOPICS[x.k].name}:</b> ${TOPICS[x.k].tip}</li>`).join('')}</ul></div>`:'<div class="panel g">🎉 Không có phần nào yếu! Em có thể thử Đề khác hoặc làm lại với số liệu mới.</div>'}
+ <p>⭐ Sao của đề này: <span class="star">${starTxt(stars(best(S.ex.id)))}</span> (5 điểm: 1 sao · 7 điểm: 2 sao · 9 điểm: 3 sao)</p>${newB.length?`<div class="newb"><b>🎉 Em vừa nhận huy hiệu mới!</b><div>${badgeHTML(newB,false)}</div></div>`:''}<p>👇 Kéo xuống để xem lời giải từng câu. Câu nào sai sẽ có giải thích vì sao em chọn chưa đúng.</p>
+ <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn orange" id="again">🔁 Làm lại với số liệu mới</button><button class="btn ghost" id="toHome">🏠 Chọn đề khác</button></div>`);
+ app.insertBefore(res,document.getElementById('qs'));
+ document.querySelector('.bar').remove();document.querySelector('.sub').remove();
+ res.querySelector('#again').onclick=()=>start(S.ex,S.variant+1);res.querySelector('#toHome').onclick=home;
+ if(weak.length)buildPractice(weak);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function buildPractice(weak){
+ const box=h('div','practice',`<h3>🎒 Bài tập củng cố dành riêng cho em</h3><p>Dựa trên những phần em còn yếu. Làm xong bấm <b>Chấm bài luyện tập</b>.</p><div id="pq"></div><div class="sub" style="margin:12px 0 0;gap:10px"><button class="btn green" id="pcheck">Chấm bài luyện tập</button></div><div id="pres"></div>`);
+ app.append(box);
+ function gen(){
+  const r=rng(Date.now()%1e9),qs=[];
+  weak.forEach(x=>{const n=x.p<.5?3:2,gens=GENS[x.k];for(let i=0;i<n;i++)qs.push(gens[i%gens.length](rng(R(r,1,1e9)),undefined))});
+  const pq=box.querySelector('#pq');pq.innerHTML='';box.querySelector('#pres').innerHTML='';
+  qs.forEach((q,i)=>renderQ(q,i,pq,'p'));box.qs=qs;box.querySelector('#pcheck').style.display='';
+ }
+ gen();
+ box.querySelector('#pcheck').onclick=()=>{
+  const gs=box.qs.map(q=>q.grade());box.qs.forEach((q,i)=>reveal(q,gs[i]));
+  const ok=gs.reduce((a,g)=>a+g.score,0),n=box.qs.length;
+  box.querySelector('#pcheck').style.display='none';
+  const pr=box.querySelector('#pres');pr.innerHTML=`${ok/n>=.7&&award(['practice']).length?'<div class="newb"><b>🎉 Huy hiệu mới!</b><div>'+badgeHTML(['practice'],false)+'</div></div>':''}<div class="panel ${ok/n>=.7?'g':'w'}"><b>Kết quả luyện tập: ${Math.round(ok*10)/10}/${n}</b> — ${ok/n>=.7?'Tiến bộ rõ rệt! 🎉':'Hãy đọc kĩ lời giải rồi thử bộ mới nhé 💪'}</div><button class="btn orange" id="more">🔄 Luyện thêm bộ câu hỏi mới</button>`;
+  pr.querySelector('#more').onclick=gen;
+ };
+}
+home();
+</script>
+</body>
+</html>
+
+
