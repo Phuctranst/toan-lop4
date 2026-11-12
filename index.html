@@ -7,11 +7,25 @@
 <style>
 :root{--bg1:#fff8e1;--bg2:#e3f6ff;--ink:#2b3a55;--blue:#4dabf7;--blue-d:#1c7ed6;--yellow:#ffe066;--green:#51cf66;--green-l:#e6fcf0;--red:#ff6b6b;--red-l:#fff0f0;--orange:#ffa94d;--orange-l:#fff4e0;--card:#fff;--line:#d9e8f5}
 *{box-sizing:border-box}
+html,body{overflow-x:hidden;width:100%}
 body{margin:0;font-family:"Nunito","Quicksand","Segoe UI",Tahoma,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;font-size:18px;line-height:1.55}
-header.top{background:linear-gradient(90deg,#74c0fc,#ffd43b);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 3px 10px #0001;position:sticky;top:0;z-index:5}
-header.top .hleft,header.top .hright{display:flex;align-items:center;gap:8px;flex:1}
-header.top .hright{justify-content:flex-end}
-header.top h1{margin:0;font-size:1.3rem;color:#16365c;text-align:center;flex:none}
+header.top{background:linear-gradient(90deg,#74c0fc,#ffd43b);box-shadow:0 3px 10px #0001;position:sticky;top:0;z-index:5}
+@media(min-width:769px){
+ header.top{padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+ .h-home-slot{order:1;flex:0 0 auto}
+ .h-user-row{order:2;flex:1 1 auto;display:flex;justify-content:flex-start}
+ .h-title-row{order:3;flex:2 1 auto;text-align:center}
+ .h-title-row h1{margin:0;font-size:1.3rem;color:#16365c;white-space:nowrap}
+ .h-out-slot{order:4;flex:1 1 auto;display:flex;justify-content:flex-end}
+}
+@media(max-width:768px){
+ header.top{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"home out" "user user" "title title";row-gap:6px;column-gap:8px;padding:8px 12px}
+ .h-home-slot{grid-area:home;justify-self:start;display:flex;align-items:center}
+ .h-out-slot{grid-area:out;justify-self:end;display:flex;align-items:center}
+ .h-user-row{grid-area:user;justify-self:center;display:flex;justify-content:center;width:100%}
+ .h-title-row{grid-area:title;justify-self:center;text-align:center;width:100%}
+ .h-title-row h1{margin:0;font-size:1.05rem;color:#16365c}
+}
 header.top button,.wname{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;background:#fff;border:0;border-radius:18px;padding:0 14px;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;color:var(--blue-d);white-space:nowrap}
 .wrap{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 .hero{text-align:center;margin:10px 0 22px}
@@ -113,11 +127,35 @@ svg.vb{width:100%;max-width:700px;display:block}.addf{display:flex;flex-wrap:wra
 @media(min-width:1100px) and (max-width:1360px){body.has-nav .wrap{max-width:1120px;margin:0 auto;padding-right:226px}.navp{right:max(14px,calc(50% - 560px))}}
 @media(min-width:1361px){body.has-nav .wrap{max-width:900px;margin:0 auto}.navp{right:max(14px,calc(50% - 670px))}}
 @media(max-width:1099px){.navp{position:sticky;top:calc(var(--hh,68px) + 6px);right:auto;width:auto;max-height:none;overflow:visible;margin:6px 0;padding:5px 10px;border-width:2px;border-radius:14px;display:flex;align-items:center;gap:8px}.navp .nleg,.navp .track{display:none}.navp .navh{margin:0;flex:none;font-size:0;order:1}.navp .navh::after{content:"📋 Bài thi";font-size:.82rem;font-weight:800;color:var(--blue-d);background:#e7f5ff;padding:2px 8px;border-radius:10px;white-space:nowrap}.navp .navc{margin:0;flex:none;font-size:.75rem;white-space:nowrap;order:2}.ngrid{display:flex;gap:4px;flex:1;overflow-x:auto;padding:2px 0;scrollbar-width:none;order:3}.ngrid::-webkit-scrollbar{display:none}.navp .navt{margin:0 0 0 auto;flex:none;order:4}.navp .timer{font-size:.85rem;padding:2px 8px}.nb{flex:none;width:26px;min-width:26px;height:26px;aspect-ratio:auto;border-radius:8px;font-size:.72rem;border-width:1.5px}}
+@media(max-width:768px){
+ body{font-size:16px}
+ .wrap{max-width:100%!important;width:100%!important;padding:8px 8px 60px!important;margin:0!important;box-sizing:border-box}
+ .q{padding:14px 10px!important;margin:10px 0!important;border-radius:16px!important;box-sizing:border-box;width:100%!important}
+ .hero{margin:6px 0 14px}
+ .hero h2{font-size:1.35rem}
+ .hero p{font-size:.9rem}
+ .ecard{padding:14px!important;border-radius:18px!important}
+ .grid{grid-template-columns:1fr!important;gap:12px}
+ .opt{padding:8px 10px!important;font-size:.95rem;gap:8px}
+ .opt .lt{width:26px;height:26px;font-size:.85rem}
+ .frow input,.frow select{max-width:130px;padding:5px 6px;font-size:.95rem}
+ svg.fig{width:100%!important;max-width:100%!important;height:auto!important}
+ .circle{width:100px;height:100px}
+ .circle b{font-size:1.6rem}
+ .tbar .nm{width:100%}
+ .shelf{padding:10px 12px}
+ .bdg{font-size:.8rem;padding:2px 8px 2px 4px;margin:2px}
+}
 @media print{header.top,.bar,.sub,.btn{display:none}}
 </style>
 </head>
 <body>
-<header class="top"><div class="hleft"><button id="homeBtn" style="display:none">🏠 Trang chủ</button><span class="who" id="who"></span></div><h1>🎒 Ôn tập Toán lớp 4 – Học mà vui</h1><div class="hright" id="hright"></div></header>
+<header class="top">
+  <div class="h-home-slot"><button id="homeBtn" style="display:none">🏠 Trang chủ</button></div>
+  <div class="h-out-slot" id="hright"></div>
+  <div class="h-user-row"><span class="who" id="who"></span></div>
+  <div class="h-title-row"><h1>🎒 Ôn tập Toán lớp 4 – Học mà vui</h1></div>
+</header>
 <main class="wrap" id="app"></main>
 
 <script>
@@ -454,6 +492,7 @@ const h=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=
 const API_URL='https://script.google.com/macros/s/AKfycbxgmTIlmjydGomfKbLV6QVaGMXtzoqWPup7iNPMYNMdNvhvDr4prYnBsDJIdc9LBY3rPw/exec';
 const SALT='toan4-kntt-';
 let SES=null;try{SES=JSON.parse(sessionStorage.getItem('toan4_ses')||'null')}catch(e){}
+if(SES&&!SES.loginSeed){SES.loginSeed=Math.floor(Math.random()*100000)+1;sessionStorage.setItem('toan4_ses',JSON.stringify(SES));}
 const UK=k=>'toan4_'+(SES?SES.user:'x')+'_'+k;
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function sha256(s){
@@ -548,7 +587,7 @@ function loginScreen(msg){
   btn.disabled=true;m.textContent='⏳ Đang đăng nhập…';
   try{
    const hash=await hashOf(user,pass),r=await api('login',{user,hash});
-   if(r.ok){SES={user,hash,role:r.role,name:r.name};sessionStorage.setItem('toan4_ses',JSON.stringify(SES));syncProfile(r.profile);flush();boot()}
+   if(r.ok){SES={user,hash,role:r.role,name:r.name,loginSeed:Math.floor(Math.random()*100000)+1};sessionStorage.setItem('toan4_ses',JSON.stringify(SES));syncProfile(r.profile);flush();boot()}
    else{m.textContent='❌ '+(r.error||'Đăng nhập thất bại');btn.disabled=false}
   }catch(e){m.textContent='❌ Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.';btn.disabled=false}
  };
@@ -711,7 +750,9 @@ function home(){
 homeBtn.onclick=()=>SES&&SES.role==='admin'?adminView():home();
 
 function start(ex,variant){
- clearInterval(S.timer);S={ex,variant,qs:makeExam(ex,variant),done:false};S.allowed=S.qs.reduce((a,q)=>a+qMin(q),0)*60;S.t0=Date.now();
+ clearInterval(S.timer);
+ const effVariant=(SES&&SES.loginSeed?SES.loginSeed:0)+variant;
+ S={ex,variant,qs:makeExam(ex,effVariant),done:false};S.allowed=S.qs.reduce((a,q)=>a+qMin(q),0)*60;S.t0=Date.now();
  homeBtn.style.display='';app.innerHTML='';window.scrollTo(0,0);if(typeof syncH==='function')setTimeout(syncH,10);
  app.append(h('div','hero',`<h2>${ex.icon} ${ex.title}${variant?' (số liệu mới #'+variant+')':''}</h2><p>Khoanh/chọn/điền đáp án. Cố gắng hết sức nhé! 💪</p><p>⏱ Thời gian làm bài: <b>${Math.round(S.allowed/60)} phút</b> (trắc nghiệm 2 phút/câu, điền số 3 phút/câu, bài lời văn và đặt tính 5 phút/câu). Hết giờ bài sẽ tự nộp.</p>`));
  const bar=h('div','bar navp',`<div class="navh">📋 Điều hướng bài thi</div><div class="navt"><span class="timer" id="tm">⏱ --:--</span></div><div class="navc"><b id="pc">0/${S.qs.length}</b> câu đã làm</div><div class="track"><div class="fill" id="pf"></div></div><div class="ngrid">${S.qs.map((q,i)=>`<button type="button" class="nb" id="nb${i}" title="Đến câu ${i+1}">${i+1}</button>`).join('')}</div><div class="nleg"><span><i class="nb done"></i> Đã làm</span><span><i class="nb"></i> Chưa làm</span></div>`);
