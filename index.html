@@ -99,6 +99,17 @@ svg.fig{display:block;margin:8px auto;max-width:100%;background:#f8fdff;border-r
 .mini{border:0;border-radius:12px;padding:3px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer;background:#e7f5ff;color:var(--blue-d)}.mini.red{background:var(--red-l);color:#e03131}
 .hb{margin-top:8px}.hbrow{display:flex;align-items:center;gap:10px;margin:6px 0}.hbl{width:180px;font-weight:700;font-size:.9rem}.hbt{flex:1;height:16px;background:#e9ecef;border-radius:10px;overflow:hidden}.hbt i{display:block;height:100%;background:linear-gradient(90deg,#74c0fc,#51cf66)}
 svg.vb{width:100%;max-width:700px;display:block}.addf{display:flex;flex-wrap:wrap;gap:10px}.addf input{font:inherit;padding:8px 12px;border:2px solid var(--line);border-radius:12px;flex:1;min-width:160px}.adm select{font:inherit;padding:4px 8px;border-radius:10px;border:2px solid var(--line)}
+
+.navp{display:block;position:fixed;right:14px;top:74px;width:200px;max-height:calc(100vh - 90px);overflow:auto;z-index:6;padding:12px;border-radius:18px;box-shadow:0 6px 20px #4dabf744;border:3px solid var(--yellow);background:#fff}
+.navp .navh{font-weight:800;margin-bottom:8px;text-align:center}.navp .navt{text-align:center;margin-bottom:6px}.navp .timer{font-size:1.15rem;display:inline-block}.navp .navc{font-size:.85rem;margin:4px 0}.navp .track{height:10px;margin-bottom:10px}
+.ngrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.nb{width:100%;aspect-ratio:1;min-width:28px;border:2px solid var(--line);background:#fff;border-radius:10px;font:inherit;font-weight:800;font-size:.8rem;cursor:pointer;color:var(--ink);padding:0}
+.nb:hover{border-color:var(--blue)}.nb.done{background:var(--green);border-color:#2f9e44;color:#fff}
+.nleg{display:flex;flex-direction:column;gap:3px;font-size:.78rem;margin:10px 0}.nleg i.nb{display:inline-block;width:14px;min-width:14px;height:14px;aspect-ratio:auto;vertical-align:middle;margin-right:4px;border-radius:4px;cursor:default}
+.navp .btn{width:100%;padding:8px}
+.q.flash{animation:flashq 1.4s}@keyframes flashq{0%,60%{box-shadow:0 0 0 5px #ffd43b}100%{box-shadow:0 4px 12px #0000000d}}
+@media(min-width:1100px){body.has-nav .wrap{margin-right:240px;margin-left:auto}}
+@media(max-width:1099px){.navp{position:sticky;top:58px;right:auto;width:auto;max-height:none;margin:10px 0}.ngrid{grid-template-columns:repeat(auto-fill,minmax(34px,1fr))}.nleg{flex-direction:row;gap:14px}.navp .btn{width:auto}}
 @media print{header.top,.bar,.sub,.btn{display:none}}
 </style>
 </head>
@@ -508,7 +519,7 @@ function syncProfile(p){
  if(Array.isArray(p.badges))localStorage.setItem(UK('badges'),JSON.stringify([...new Set(myBadges().concat(p.badges))]));
 }
 function renderWho(){
- const w=document.getElementById('who');
+ document.body.classList.remove('has-nav');const w=document.getElementById('who');
  if(!SES){w.innerHTML='';return}
  w.innerHTML=`<span class="wname">${SES.role==='admin'?'🛠️':'👤'} ${esc(SES.name)}</span>${SES.role==='student'?'<button id="pwBtn" title="Đổi mật khẩu">🔑</button>':''}<button id="outBtn">Đăng xuất</button>`;
  document.getElementById('outBtn').onclick=logout;
@@ -698,7 +709,10 @@ function start(ex,variant){
  clearInterval(S.timer);S={ex,variant,qs:makeExam(ex,variant),done:false};S.allowed=S.qs.reduce((a,q)=>a+qMin(q),0)*60;S.t0=Date.now();
  homeBtn.style.display='';app.innerHTML='';window.scrollTo(0,0);
  app.append(h('div','hero',`<h2>${ex.icon} ${ex.title}${variant?' (số liệu mới #'+variant+')':''}</h2><p>Khoanh/chọn/điền đáp án. Cố gắng hết sức nhé! 💪</p><p>⏱ Thời gian làm bài: <b>${Math.round(S.allowed/60)} phút</b> (trắc nghiệm 2 phút/câu, điền số 3 phút/câu, bài lời văn và đặt tính 5 phút/câu). Hết giờ bài sẽ tự nộp.</p>`));
- const bar=h('div','bar',`<b id="pc">0/${S.qs.length}</b><div class="track"><div class="fill" id="pf"></div></div><span>câu đã làm</span><span class="timer" id="tm">⏱ --:--</span>`);
+ const bar=h('div','bar navp',`<div class="navh">📋 Điều hướng bài thi</div><div class="navt"><span class="timer" id="tm">⏱ --:--</span></div><div class="navc"><b id="pc">0/${S.qs.length}</b> câu đã làm</div><div class="track"><div class="fill" id="pf"></div></div><div class="ngrid">${S.qs.map((q,i)=>`<button type="button" class="nb" id="nb${i}" title="Đến câu ${i+1}">${i+1}</button>`).join('')}</div><div class="nleg"><span><i class="nb done"></i> Đã làm</span><span><i class="nb"></i> Chưa làm</span></div><button type="button" class="btn green" id="nsub">✅ Nộp bài</button>`);
+ document.body.classList.add('has-nav');
+ bar.querySelectorAll('.ngrid .nb').forEach((bt,i)=>bt.onclick=()=>{const t=S.qs[i].card;t.scrollIntoView({behavior:'smooth',block:'center'});t.classList.remove('flash');void t.offsetWidth;t.classList.add('flash')});
+ bar.querySelector('#nsub').onclick=()=>submit(false);
  app.append(bar);
  const list=h('div');list.id='qs';app.append(list);
  S.qs.forEach((q,i)=>renderQ(q,i,list,'e'));
@@ -707,13 +721,13 @@ function start(ex,variant){
  app.addEventListener('input',upd);app.addEventListener('change',upd);
 }
 function upd(){
- if(S.done)return;const n=S.qs.filter(q=>q.answered()).length;
+ if(S.done)return;const n=S.qs.filter(q=>q.answered()).length;S.qs.forEach((q,i)=>{const b=document.getElementById('nb'+i);if(b)b.classList.toggle('done',q.answered())});
  document.getElementById('pc').textContent=n+'/'+S.qs.length;document.getElementById('pf').style.width=(100*n/S.qs.length)+'%';
 }
 const L4='ABCD';
 function renderQ(q,i,host,pre){
  const id=pre+i,card=h('section','q',`<div class="qh"><b class="qn">Câu ${i+1}</b><span class="tp">${TOPICS[q.topic].icon} ${TOPICS[q.topic].name}</span></div><p class="qt">${q.text}</p>${q.svg||''}<div class="qb"></div><div class="fb"></div>`);
- const b=card.querySelector('.qb');q.card=card;
+ const b=card.querySelector('.qb');q.card=card;card.id='qc_'+id;
  if(q.kind=='mcq'){
   q.opts.forEach((o,k)=>b.append(h('label','opt',`<input type="radio" name="${id}" value="${k}"><span class="lt">${L4[k]}</span><span>${o.t}</span>`)));
   q.read=()=>{const c=b.querySelector('input:checked');return c?+c.value:null};
@@ -786,7 +800,7 @@ function submit(auto){
  <p>⭐ Sao của đề này: <span class="star">${starTxt(stars(best(S.ex.id)))}</span> (5 điểm: 1 sao · 7 điểm: 2 sao · 9 điểm: 3 sao)</p>${newB.length?`<div class="newb"><b>🎉 Em vừa nhận huy hiệu mới!</b><div>${badgeHTML(newB,false)}</div></div>`:''}<p>👇 Kéo xuống để xem lời giải từng câu. Câu nào sai sẽ có giải thích vì sao em chọn chưa đúng.</p>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn orange" id="again">🔁 Làm lại với số liệu mới</button><button class="btn ghost" id="toHome">🏠 Chọn đề khác</button></div>`);
  app.insertBefore(res,document.getElementById('qs'));
- document.querySelector('.bar').remove();document.querySelector('.sub').remove();
+ document.querySelector('.bar').remove();document.body.classList.remove('has-nav');document.querySelector('.sub').remove();
  res.querySelector('#again').onclick=()=>start(S.ex,S.variant+1);res.querySelector('#toHome').onclick=home;
  if(weak.length)buildPractice(weak);
  window.scrollTo({top:0,behavior:'smooth'});
