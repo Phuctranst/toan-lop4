@@ -8,8 +8,10 @@
 :root{--bg1:#fff8e1;--bg2:#e3f6ff;--ink:#2b3a55;--blue:#4dabf7;--blue-d:#1c7ed6;--yellow:#ffe066;--green:#51cf66;--green-l:#e6fcf0;--red:#ff6b6b;--red-l:#fff0f0;--orange:#ffa94d;--orange-l:#fff4e0;--card:#fff;--line:#d9e8f5}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Nunito","Quicksand","Segoe UI",Tahoma,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;font-size:18px;line-height:1.55}
-header.top{background:linear-gradient(90deg,#74c0fc,#ffd43b);padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 10px #0001;position:sticky;top:0;z-index:5}
-header.top h1{margin:0;font-size:1.3rem;color:#16365c;flex:1}
+header.top{background:linear-gradient(90deg,#74c0fc,#ffd43b);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 3px 10px #0001;position:sticky;top:0;z-index:5}
+header.top .hleft,header.top .hright{display:flex;align-items:center;gap:8px;flex:1}
+header.top .hright{justify-content:flex-end}
+header.top h1{margin:0;font-size:1.3rem;color:#16365c;text-align:center;flex:none}
 header.top button{background:#fff;border:0;border-radius:20px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer;color:var(--blue-d)}
 .wrap{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 .hero{text-align:center;margin:10px 0 22px}
@@ -108,13 +110,14 @@ svg.vb{width:100%;max-width:700px;display:block}.addf{display:flex;flex-wrap:wra
 .nleg{display:flex;flex-direction:column;gap:3px;font-size:.78rem;margin:10px 0}.nleg i.nb{display:inline-block;width:14px;min-width:14px;height:14px;aspect-ratio:auto;vertical-align:middle;margin-right:4px;border-radius:4px;cursor:default}
 .navp .btn{width:100%;padding:8px}
 .q.flash{animation:flashq 1.4s}@keyframes flashq{0%,60%{box-shadow:0 0 0 5px #ffd43b}100%{box-shadow:0 4px 12px #0000000d}}
-@media(min-width:1100px){body.has-nav .wrap{max-width:1120px;margin:0 auto;padding-right:226px}.navp{right:max(14px,calc(50% - 560px))}}
+@media(min-width:1100px) and (max-width:1360px){body.has-nav .wrap{max-width:1120px;margin:0 auto;padding-right:226px}.navp{right:max(14px,calc(50% - 560px))}}
+@media(min-width:1361px){body.has-nav .wrap{max-width:900px;margin:0 auto}.navp{right:max(14px,calc(50% - 670px))}}
 @media(max-width:1099px){.navp{position:sticky;top:calc(var(--hh,68px) + 6px);right:auto;width:auto;max-height:none;overflow:visible;margin:6px 0;padding:5px 10px;border-width:2px;border-radius:14px;display:flex;align-items:center;gap:8px}.navp .nleg,.navp .track{display:none}.navp .navh{margin:0;flex:none;font-size:0;order:1}.navp .navh::after{content:"📋 Bài thi";font-size:.82rem;font-weight:800;color:var(--blue-d);background:#e7f5ff;padding:2px 8px;border-radius:10px;white-space:nowrap}.navp .navc{margin:0;flex:none;font-size:.75rem;white-space:nowrap;order:2}.ngrid{display:flex;gap:4px;flex:1;overflow-x:auto;padding:2px 0;scrollbar-width:none;order:3}.ngrid::-webkit-scrollbar{display:none}.navp .navt{margin:0 0 0 auto;flex:none;order:4}.navp .timer{font-size:.85rem;padding:2px 8px}.nb{flex:none;width:26px;min-width:26px;height:26px;aspect-ratio:auto;border-radius:8px;font-size:.72rem;border-width:1.5px}}
 @media print{header.top,.bar,.sub,.btn{display:none}}
 </style>
 </head>
 <body>
-<header class="top"><span style="font-size:1.8rem">🎒</span><h1>Ôn tập Toán lớp 4 – Học mà vui</h1><button id="homeBtn" style="display:none">🏠 Trang chủ</button><span class="who" id="who"></span></header>
+<header class="top"><div class="hleft"><button id="homeBtn" style="display:none">🏠 Trang chủ</button><span class="who" id="who"></span></div><h1>🎒 Ôn tập Toán lớp 4 – Học mà vui</h1><div class="hright" id="hright"></div></header>
 <main class="wrap" id="app"></main>
 
 <script>
@@ -519,9 +522,10 @@ function syncProfile(p){
  if(Array.isArray(p.badges))localStorage.setItem(UK('badges'),JSON.stringify([...new Set(myBadges().concat(p.badges))]));
 }
 function renderWho(){
- document.body.classList.remove('has-nav');const w=document.getElementById('who');
- if(!SES){w.innerHTML='';return}
- w.innerHTML=`<span class="wname">${SES.role==='admin'?'🛠️':'👤'} ${esc(SES.name)}</span>${SES.role==='student'?'<button id="pwBtn" title="Đổi mật khẩu">🔑</button>':''}<button id="outBtn">Đăng xuất</button>`;
+ document.body.classList.remove('has-nav');const w=document.getElementById('who'),hr=document.getElementById('hright');
+ if(!SES){w.innerHTML='';if(hr)hr.innerHTML='';return}
+ w.innerHTML=`<span class="wname">${SES.role==='admin'?'🛠️':'👤'} ${esc(SES.name)}</span>${SES.role==='student'?'<button id="pwBtn" title="Đổi mật khẩu">🔑</button>':''}`;
+ if(hr)hr.innerHTML=`<button id="outBtn" style="color:#e03131">Đăng xuất</button>`;
  document.getElementById('outBtn').onclick=logout;
  if(typeof syncH==='function')setTimeout(syncH,10);
  const pb=document.getElementById('pwBtn');
