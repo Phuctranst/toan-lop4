@@ -88,11 +88,22 @@ header.top button{background:#fff;border:0;border-radius:20px;padding:6px 14px;f
 .practice{background:#f3f0ff;border:3px dashed #b197fc;border-radius:22px;padding:14px;margin:20px 0}
 .practice h3{margin:0}
 svg.fig{display:block;margin:8px auto;max-width:100%;background:#f8fdff;border-radius:14px;border:2px solid var(--line)}
+.who{display:flex;align-items:center;gap:6px}.who button{background:#fff;border:0;border-radius:16px;padding:4px 12px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;color:#e03131}.who #pwBtn{color:var(--blue-d)}.wname{background:#ffffffb0;border-radius:16px;padding:3px 12px;font-weight:800;font-size:.9rem;color:#16365c}
+.loginbox{max-width:380px;margin:30px auto;background:#fff;border-radius:26px;padding:22px;text-align:center;box-shadow:0 8px 24px #4dabf733;border:4px solid var(--yellow)}.loginbox input{display:block;width:100%;font:inherit;padding:10px 14px;margin:10px 0;border:2px solid var(--line);border-radius:14px}.loginbox input:focus{outline:0;border-color:var(--blue)}.lerr{color:#e03131;font-weight:700;min-height:1.4em;margin:6px 0}.lwarn{background:var(--orange-l);border-radius:12px;padding:8px 12px;font-size:.9rem}
+.timer{font-weight:800;background:#e7f5ff;color:var(--blue-d);border-radius:14px;padding:2px 12px;white-space:nowrap}.timer.warn{background:var(--orange-l);color:#d9480f}.timer.danger{background:var(--red-l);color:#e03131;animation:blink 1s infinite}@keyframes blink{50%{opacity:.5}}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tab{border:2px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink)}.tab.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:10px 0}.stats div{background:#fff;border-radius:18px;padding:10px;text-align:center;box-shadow:0 3px 10px #0000000d;font-size:.9rem}.stats b{display:block;font-size:1.4rem;color:var(--blue-d)}
+.card2{background:#fff;border-radius:20px;padding:14px 16px;margin:12px 0;box-shadow:0 4px 12px #0000000d}.card2 h3{margin:0 0 8px}
+.tbl{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:8px}.tbl th{background:#e7f5ff;text-align:left;padding:6px 10px;white-space:nowrap}.tbl td{padding:6px 10px;border-bottom:1px solid #edf2f7;vertical-align:top}.nw{white-space:nowrap}.small{font-size:.78rem;color:#868e96}
+.lv{border-radius:12px;padding:1px 10px;font-weight:800;font-size:.85rem}.lv.good{background:var(--green-l);color:#2b8a3e}.lv.mid{background:var(--orange-l);color:#d9480f}.lv.low{background:var(--red-l);color:#e03131}
+.mini{border:0;border-radius:12px;padding:3px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer;background:#e7f5ff;color:var(--blue-d)}.mini.red{background:var(--red-l);color:#e03131}
+.hb{margin-top:8px}.hbrow{display:flex;align-items:center;gap:10px;margin:6px 0}.hbl{width:180px;font-weight:700;font-size:.9rem}.hbt{flex:1;height:16px;background:#e9ecef;border-radius:10px;overflow:hidden}.hbt i{display:block;height:100%;background:linear-gradient(90deg,#74c0fc,#51cf66)}
+svg.vb{width:100%;max-width:700px;display:block}.addf{display:flex;flex-wrap:wrap;gap:10px}.addf input{font:inherit;padding:8px 12px;border:2px solid var(--line);border-radius:12px;flex:1;min-width:160px}.adm select{font:inherit;padding:4px 8px;border-radius:10px;border:2px solid var(--line)}
 @media print{header.top,.bar,.sub,.btn{display:none}}
 </style>
 </head>
 <body>
-<header class="top"><span style="font-size:1.8rem">🎒</span><h1>Ôn tập Toán lớp 4 – Học mà vui</h1><button id="homeBtn" style="display:none">🏠 Trang chủ</button></header>
+<header class="top"><span style="font-size:1.8rem">🎒</span><h1>Ôn tập Toán lớp 4 – Học mà vui</h1><button id="homeBtn" style="display:none">🏠 Trang chủ</button><span class="who" id="who"></span></header>
 <main class="wrap" id="app"></main>
 
 <script>
@@ -423,17 +434,253 @@ function makeExam(ex,variant){return ex.plan.map((p,i)=>p[0](rng(ex.seed+variant
 const app=document.getElementById('app'),homeBtn=document.getElementById('homeBtn');
 const norm=s=>String(s).replace(/[\s.,\u00a0]/g,'');
 const h=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+/* ================= TÀI KHOẢN, MÁY CHỦ, HẸN GIỜ, QUẢN TRỊ ================= */
+/* Dán địa chỉ Web App của Google Apps Script vào giữa hai dấu nháy (xem HUONG_DAN.md).
+   Để trống = lưu tạm trong trình duyệt của máy này (chế độ thử nghiệm). */
+const API_URL='';
+const SALT='toan4-kntt-';
+let SES=null;try{SES=JSON.parse(sessionStorage.getItem('toan4_ses')||'null')}catch(e){}
+const UK=k=>'toan4_'+(SES?SES.user:'x')+'_'+k;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function sha256(s){
+ if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return 'h'+[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+ let x=5381;for(const ch of s)x=(x*33^ch.charCodeAt(0))>>>0;return 'x'+x.toString(16);
+}
+const hashOf=(u,p)=>sha256(SALT+String(u).trim().toLowerCase()+':'+p);
+const dayKey=ts=>{const d=new Date(+ts);return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()};
+
+/* ---- Chế độ lưu trên máy (khi chưa có API_URL) ---- */
+async function localApi(q){
+ const adminHash=await hashOf('admin','admin123');
+ let db;try{db=JSON.parse(localStorage.getItem('toan4_db'))}catch(e){}
+ if(!db)db={users:[],results:[],logs:[],activity:[]};
+ const save=()=>localStorage.setItem('toan4_db',JSON.stringify(db));
+ const now=+q.ts||Date.now(),user=String(q.user||'').toLowerCase();
+ const log=(u,e,d)=>db.logs.push({ts:now,username:u,event:e,detail:d||''});
+ let me=null,ur=null;
+ if(user==='admin'){if(q.hash===adminHash)me={role:'admin',name:'Quản trị'}}
+ else{ur=db.users.find(x=>x.username===user);if(ur&&ur.hash===q.hash)me={role:'student',name:ur.name}}
+ if(q.action==='login'){
+  if(!me){log(user,'login_fail');save();return{ok:false,error:'Sai tên đăng nhập hoặc mật khẩu'}}
+  log(user,'login');if(ur)ur.lastLogin=now;save();
+  return{ok:true,role:me.role,name:me.name,profile:ur?ur.profile:null};
+ }
+ if(!me)return{ok:false,error:'auth'};
+ const adm=me.role==='admin';
+ switch(q.action){
+  case 'log':log(user,q.event,q.detail);break;
+  case 'ping':{const day=dayKey(now);let a=db.activity.find(x=>x.day===day&&x.username===user);if(a)a.minutes+=(+q.minutes||1);else db.activity.push({day,username:user,minutes:+q.minutes||1});break}
+  case 'result':db.results.push({ts:now,username:user,name:me.name,exam:q.exam,title:q.title,score:q.score,seconds:q.seconds,allowed:q.allowed,timeout:!!q.timeout,topics:JSON.stringify(q.topics||{})});log(user,'submit_exam',q.title+' – '+q.score+'/10');if(ur&&q.profile)ur.profile=q.profile;break;
+  case 'changePass':if(ur)ur.hash=q.newHash;break;
+  case 'adminData':if(!adm)return{ok:false,error:'forbidden'};return{ok:true,users:db.users.map(u=>({username:u.username,name:u.name,created:u.created,lastLogin:u.lastLogin})),results:db.results,logs:db.logs.slice(-1500),activity:db.activity};
+  case 'addUser':{if(!adm)return{ok:false,error:'forbidden'};const u=q.u||{};if(!/^[a-z0-9_.]{3,20}$/.test(u.username||'')||u.username==='admin')return{ok:false,error:'Tên đăng nhập 3–20 ký tự (chữ thường, số, _ .)'};if(db.users.some(x=>x.username===u.username))return{ok:false,error:'Tên đăng nhập đã tồn tại'};db.users.push({username:u.username,name:u.name||u.username,hash:u.hash,profile:null,created:now,lastLogin:0});break}
+  case 'resetPass':{if(!adm)return{ok:false,error:'forbidden'};const t=db.users.find(x=>x.username===q.target);if(t)t.hash=q.newHash;break}
+  case 'delUser':{if(!adm)return{ok:false,error:'forbidden'};db.users=db.users.filter(x=>x.username!==q.target);break}
+ }
+ save();return{ok:true};
+}
+async function api(action,payload){
+ const req=Object.assign({action,ts:Date.now()},SES?{user:SES.user,hash:SES.hash}:{},payload||{});
+ if(!API_URL)return localApi(req);
+ const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(req)});return r.json();
+}
+/* Hàng đợi gửi: mất mạng thì giữ lại và gửi sau */
+const OB='toan4_outbox';let flushing=false;
+function queue(action,payload){
+ let q=[];try{q=JSON.parse(localStorage.getItem(OB)||'[]')}catch(e){}
+ q.push(Object.assign({action,ts:Date.now(),user:SES&&SES.user,hash:SES&&SES.hash},payload||{}));
+ localStorage.setItem(OB,JSON.stringify(q));flush();
+}
+async function flush(){
+ if(flushing)return;flushing=true;
+ try{let q=JSON.parse(localStorage.getItem(OB)||'[]');
+  while(q.length){
+   try{const res=API_URL?await(await fetch(API_URL,{method:'POST',body:JSON.stringify(q[0])})).json():await localApi(q[0]);void res}catch(e){break}
+   q.shift();localStorage.setItem(OB,JSON.stringify(q));
+  }}catch(e){}finally{flushing=false}
+}
+setInterval(()=>{if(SES&&SES.role==='student'&&!document.hidden)queue('ping',{minutes:1})},60000);
+
+/* ---- Đăng nhập / đăng xuất ---- */
+function syncProfile(p){
+ if(!p||typeof p!=='object')return;
+ if(p.best)Object.keys(p.best).forEach(id=>{const cur=+localStorage.getItem(UK('best_'+id))||0;if(+p.best[id]>cur)localStorage.setItem(UK('best_'+id),p.best[id])});
+ if(Array.isArray(p.badges))localStorage.setItem(UK('badges'),JSON.stringify([...new Set(myBadges().concat(p.badges))]));
+}
+function renderWho(){
+ const w=document.getElementById('who');
+ if(!SES){w.innerHTML='';return}
+ w.innerHTML=`<span class="wname">${SES.role==='admin'?'🛠️':'👤'} ${esc(SES.name)}</span>${SES.role==='student'?'<button id="pwBtn" title="Đổi mật khẩu">🔑</button>':''}<button id="outBtn">Đăng xuất</button>`;
+ document.getElementById('outBtn').onclick=logout;
+ const pb=document.getElementById('pwBtn');
+ if(pb)pb.onclick=async()=>{
+  const np=prompt('Nhập mật khẩu mới (ít nhất 4 ký tự):');if(!np)return;if(np.length<4){alert('Mật khẩu cần ít nhất 4 ký tự.');return}
+  const nh=await hashOf(SES.user,np);
+  try{const r=await api('changePass',{newHash:nh});if(r.ok){SES.hash=nh;sessionStorage.setItem('toan4_ses',JSON.stringify(SES));alert('Đã đổi mật khẩu!')}else alert('Không đổi được mật khẩu.')}catch(e){alert('Không kết nối được máy chủ.')}
+ };
+}
+function logout(){
+ if(SES&&SES.role==='student')queue('log',{event:'logout'});
+ clearInterval(S.timer);SES=null;sessionStorage.removeItem('toan4_ses');loginScreen();
+}
+function loginScreen(msg){
+ homeBtn.style.display='none';renderWho();app.innerHTML='';
+ app.append(h('div','loginbox',`<div style="font-size:3rem">🔐</div><h2>Đăng nhập</h2><p>Nhập tên đăng nhập và mật khẩu do thầy/cô cấp.</p><input id="lu" placeholder="Tên đăng nhập" autocomplete="username"><input id="lp" type="password" placeholder="Mật khẩu" autocomplete="current-password"><div id="lmsg" class="lerr">${esc(msg||'')}</div><button class="btn" id="lgo">Đăng nhập</button>${API_URL?'':'<div class="best" style="margin-top:12px">⚠ Chế độ thử nghiệm: dữ liệu chỉ lưu trên máy này (chưa kết nối Google Sheets). Tài khoản quản trị mặc định: admin / admin123.</div>'}`));
+ const go=async()=>{
+  const user=document.getElementById('lu').value.trim().toLowerCase(),pass=document.getElementById('lp').value,m=document.getElementById('lmsg'),btn=document.getElementById('lgo');
+  if(!user||!pass){m.textContent='Em hãy nhập đủ tên đăng nhập và mật khẩu nhé.';return}
+  btn.disabled=true;m.textContent='⏳ Đang đăng nhập…';
+  try{
+   const hash=await hashOf(user,pass),r=await api('login',{user,hash});
+   if(r.ok){SES={user,hash,role:r.role,name:r.name};sessionStorage.setItem('toan4_ses',JSON.stringify(SES));syncProfile(r.profile);flush();boot()}
+   else{m.textContent='❌ '+(r.error||'Đăng nhập thất bại');btn.disabled=false}
+  }catch(e){m.textContent='❌ Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.';btn.disabled=false}
+ };
+ document.getElementById('lgo').onclick=go;
+ document.getElementById('lp').onkeydown=e=>{if(e.key==='Enter')go()};
+ document.getElementById('lu').onkeydown=e=>{if(e.key==='Enter')document.getElementById('lp').focus()};
+}
+function boot(){
+ renderWho();flush();
+ if(!SES)loginScreen();else if(SES.role==='admin')adminView();else home();
+}
+
+/* ---- Hẹn giờ ---- */
+const qMin=q=>q.kind==='mcq'?2:(q.topic==='word'||q.topic==='calc')?5:3;
+const mmss=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const fmtDur=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+' phút '+String(s%60).padStart(2,'0')+' giây'};
+const fmtMin=m=>{m=Math.round(m);return m>=60?Math.floor(m/60)+' giờ '+(m%60)+' phút':m+' phút'};
+function startTimer(){
+ const el=document.getElementById('tm');
+ const tick=()=>{
+  if(S.done)return;
+  const left=Math.max(0,S.allowed-Math.floor((Date.now()-S.t0)/1000));
+  if(el){el.textContent='⏱ '+mmss(left);el.className='timer'+(left<=60?' danger':left<=300?' warn':'')}
+  if(left<=0)submit(true);
+ };
+ S.timer=setInterval(tick,1000);tick();
+}
+function sendResult(score,t){
+ const topics={};Object.keys(t).forEach(k=>topics[k]=[Math.round(t[k].got*100)/100,t[k].n]);
+ const bestMap={};EXAMS.forEach(e=>{const b=localStorage.getItem(UK('best_'+e.id));if(b)bestMap[e.id]=+b});
+ queue('result',{exam:S.ex.id,title:S.ex.title,score,seconds:S.elapsed,allowed:S.allowed,timeout:S.timeout,topics,profile:{best:bestMap,badges:myBadges()}});
+}
+
+/* ---- Trang quản trị ---- */
+const ADM={d:null,tab:'over',sel:'',evt:''};
+const EVT={login:'Đăng nhập',login_fail:'Đăng nhập sai',logout:'Đăng xuất',start_exam:'Bắt đầu làm đề',submit_exam:'Nộp bài'};
+const fdt=ts=>ts?new Date(+ts).toLocaleString('vi-VN'):'—';
+const parseTopics=r=>{try{return typeof r.topics==='string'?JSON.parse(r.topics||'{}'):(r.topics||{})}catch(e){return{}}};
+async function adminView(){
+ homeBtn.style.display='none';renderWho();clearInterval(S.timer);
+ app.innerHTML='<div class="hero"><h2>⏳ Đang tải dữ liệu…</h2></div>';
+ try{const d=await api('adminData');if(!d||!d.ok)throw 0;ADM.d=d;renderAdmin()}
+ catch(e){app.innerHTML='<div class="hero"><h2>❌ Không tải được dữ liệu</h2><p>Kiểm tra kết nối và địa chỉ API.</p><button class="btn" id="retry">Thử lại</button></div>';document.getElementById('retry').onclick=adminView}
+}
+function admStats(d){
+ const per={};
+ d.users.forEach(u=>per[u.username]={u,attempts:0,sum:0,best:0,sec:0,topics:{},study:0,last:+u.lastLogin||0,timeouts:0});
+ d.results.forEach(r=>{const p=per[r.username];if(!p)return;p.attempts++;p.sum+=+r.score;p.best=Math.max(p.best,+r.score);p.sec+=+r.seconds||0;if(r.timeout===true||r.timeout==='TRUE')p.timeouts++;const tp=parseTopics(r);Object.keys(tp).forEach(k=>{const o=p.topics[k]||(p.topics[k]=[0,0]);o[0]+=+tp[k][0];o[1]+=+tp[k][1]})});
+ d.activity.forEach(a=>{const p=per[a.username];if(p)p.study+=+a.minutes});
+ d.logs.forEach(l=>{const p=per[l.username];if(p&&l.event==='login')p.last=Math.max(p.last,+l.ts)});
+ return per;
+}
+const tname=k=>TOPICS[k]?TOPICS[k].name:k;
+function weakOf(p){return Object.keys(p.topics).filter(k=>p.topics[k][1]&&p.topics[k][0]/p.topics[k][1]<.6).map(tname)}
+function levelOf(avg){return avg>=8?['Tốt','good']:avg>=6.5?['Khá','good']:avg>=5?['Trung bình','mid']:['Cần hỗ trợ','low']}
+function evalP(p){if(!p.attempts)return'<span class="tag" style="background:#f1f3f5">Chưa làm bài</span>';const lv=levelOf(p.sum/p.attempts),w=weakOf(p);return`<span class="lv ${lv[1]}">${lv[0]}</span>${w.length?`<div class="small">Cần ôn: ${esc(w.join(', '))}</div>`:''}`}
+function hbar(items,f,max){
+ max=max||Math.max(1,...items.map(i=>i.value));
+ return'<div class="hb">'+(items.length?items.map(i=>`<div class="hbrow"><span class="hbl">${esc(i.label)}</span><div class="hbt"><i style="width:${Math.max(1,i.value/max*100)}%"></i></div><b>${f(i.value)}</b></div>`).join(''):'<p class="small">Chưa có dữ liệu.</p>')+'</div>';
+}
+function vbar(items,unit){
+ const W=660,H=230,pl=36,pb=34,pt=14,max=Math.max(5,...items.map(i=>i.value)),bw=(W-pl-10)/items.length;
+ let s=`<svg viewBox="0 0 ${W} ${H}" class="vb">`;
+ for(let i=0;i<=4;i++){const y=pt+(H-pt-pb)*(1-i/4),v=Math.round(max*i/4);s+=`<line x1="${pl}" x2="${W-6}" y1="${y}" y2="${y}" stroke="#e9ecef"/><text x="${pl-5}" y="${y+4}" font-size="10" text-anchor="end" fill="#868e96">${v}</text>`}
+ items.forEach((it,i)=>{const x=pl+i*bw+bw*.18,w=bw*.64,hh=(H-pt-pb)*it.value/max,y=H-pb-hh;
+  s+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}" rx="5" fill="#4dabf7"><title>${esc(it.label)}: ${it.value} ${unit}</title></rect>`;
+  if(it.value)s+=`<text x="${(x+w/2).toFixed(1)}" y="${(y-4).toFixed(1)}" font-size="10" text-anchor="middle" fill="#1c7ed6" font-weight="700">${it.value}</text>`;
+  s+=`<text x="${(x+w/2).toFixed(1)}" y="${H-pb+14}" font-size="10" text-anchor="middle" fill="#495057">${esc(it.label)}</text>`});
+ return s+`<text x="4" y="10" font-size="10" fill="#868e96">${unit}</text></svg>`;
+}
+function userOpts(d,sel){return'<option value="">Tất cả học sinh</option>'+d.users.map(u=>`<option value="${esc(u.username)}" ${sel===u.username?'selected':''}>${esc(u.name)} (${esc(u.username)})</option>`).join('')}
+function renderAdmin(){
+ const d=ADM.d,per=admStats(d);
+ const tabs=[['over','📊 Tổng quan'],['stu','👩‍🎓 Học sinh'],['res','📝 Kết quả'],['log','🕒 Nhật ký truy cập'],['chart','📈 Biểu đồ'],['add','➕ Tạo tài khoản']];
+ app.innerHTML='';
+ app.append(h('div','hero',`<h2>🛠️ Bảng quản trị</h2>${API_URL?'':'<p class="lwarn">⚠ Đang ở chế độ thử nghiệm: chỉ thấy dữ liệu của học sinh dùng chung máy/trình duyệt này. Hãy kết nối Google Sheets (xem HUONG_DAN.md) để xem dữ liệu mọi máy.</p>'}`));
+ const nav=h('div','tabs',tabs.map(t=>`<button class="tab ${ADM.tab===t[0]?'on':''}" data-t="${t[0]}">${t[1]}</button>`).join('')+'<button class="tab" id="refresh">🔄 Tải lại</button>');
+ app.append(nav);const body=h('div','adm');app.append(body);
+ nav.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{ADM.tab=b.dataset.t;renderAdmin()});
+ nav.querySelector('#refresh').onclick=adminView;
+ ({over:tabOver,stu:tabStu,res:tabRes,log:tabLog,chart:tabChart,add:tabAdd})[ADM.tab](body,d,per);
+}
+function tabOver(b,d,per){
+ const ps=Object.values(per),att=ps.reduce((a,p)=>a+p.attempts,0),sum=ps.reduce((a,p)=>a+p.sum,0),study=ps.reduce((a,p)=>a+p.study,0),sec=ps.reduce((a,p)=>a+p.sec,0),avg=att?sum/att:0;
+ const top={};ps.forEach(p=>Object.keys(p.topics).forEach(k=>{const o=top[k]||(top[k]=[0,0]);o[0]+=p.topics[k][0];o[1]+=p.topics[k][1]}));
+ const tk=Object.keys(top).map(k=>({k,p:top[k][1]?top[k][0]/top[k][1]:0})).sort((a,c)=>a.p-c.p);
+ const strong=tk.filter(x=>x.p>=.8),weak=tk.filter(x=>x.p<.6),need=ps.filter(p=>p.attempts&&p.sum/p.attempts<5),idle=ps.filter(p=>!p.attempts);
+ const lv=att?levelOf(avg):null;
+ b.innerHTML=`<div class="stats"><div><b>${d.users.length}</b>Học sinh</div><div><b>${att}</b>Lượt làm bài</div><div><b>${att?avg.toFixed(1):'—'}</b>Điểm trung bình</div><div><b>${fmtMin(study)}</b>Tổng thời gian học</div><div><b>${fmtMin(sec/60)}</b>Tổng thời gian làm bài</div></div>
+ <div class="panel g"><h3 style="margin:0 0 6px">📋 Đánh giá chung</h3>${att?`<p>Điểm trung bình cả lớp <b>${avg.toFixed(1)}/10</b> – mức <b>${lv[0]}</b>.</p>
+ ${strong.length?`<p>😀 <b>Phần làm tốt:</b> ${strong.map(x=>tname(x.k)).join('; ')}.</p>`:''}
+ ${weak.length?`<p>🧐 <b>Phần cần ôn thêm cho cả lớp:</b> ${weak.map(x=>tname(x.k)+' ('+Math.round(x.p*100)+'%)').join('; ')}.</p>`:'<p>Không có phần kiến thức nào yếu.</p>'}
+ ${need.length?`<p>⚠ <b>Học sinh cần hỗ trợ</b> (điểm TB dưới 5): ${need.map(p=>esc(p.u.name)).join(', ')}.</p>`:''}
+ ${idle.length?`<p>💤 <b>Chưa làm bài nào:</b> ${idle.map(p=>esc(p.u.name)).join(', ')}.</p>`:''}`:'<p>Chưa có bài làm nào. Hãy tạo tài khoản cho học sinh ở thẻ “Tạo tài khoản”.</p>'}</div>
+ <div class="card2"><h3>Tỉ lệ đúng theo phần kiến thức (cả lớp)</h3>${hbar(tk.map(x=>({label:tname(x.k),value:Math.round(x.p*100)})),v=>v+'%',100)}</div>`;
+}
+function tabStu(b,d,per){
+ const rows=Object.values(per).map(p=>`<tr><td><b>${esc(p.u.name)}</b><div class="small">${esc(p.u.username)}</div></td><td>${p.attempts}</td><td>${p.attempts?(p.sum/p.attempts).toFixed(1):'—'}</td><td>${p.attempts?p.best:'—'}</td><td>${fmtMin(p.sec/60)}</td><td>${fmtMin(p.study)}</td><td>${fdt(p.last)}</td><td>${evalP(p)}</td><td class="nw"><button class="mini" data-rp="${esc(p.u.username)}">🔑 Đặt lại MK</button> <button class="mini red" data-del="${esc(p.u.username)}">🗑 Xóa</button></td></tr>`).join('');
+ b.innerHTML=`<div class="card2" style="overflow:auto"><table class="tbl"><tr><th>Học sinh</th><th>Số lần làm</th><th>Điểm TB</th><th>Cao nhất</th><th>Thời gian làm bài</th><th>Thời gian học</th><th>Đăng nhập gần nhất</th><th>Đánh giá</th><th>Thao tác</th></tr>${rows||'<tr><td colspan="9">Chưa có học sinh.</td></tr>'}</table></div>`;
+ b.querySelectorAll('[data-rp]').forEach(x=>x.onclick=async()=>{const np=prompt('Mật khẩu mới cho '+x.dataset.rp+' (ít nhất 4 ký tự):');if(!np||np.length<4)return;try{const r=await api('resetPass',{target:x.dataset.rp,newHash:await hashOf(x.dataset.rp,np)});alert(r.ok?'Đã đặt lại mật khẩu.':'Lỗi: '+(r.error||''))}catch(e){alert('Không kết nối được máy chủ.')}});
+ b.querySelectorAll('[data-del]').forEach(x=>x.onclick=async()=>{if(!confirm('Xóa tài khoản '+x.dataset.del+'? (Kết quả cũ vẫn được giữ trong bảng tính)'))return;try{const r=await api('delUser',{target:x.dataset.del});if(r.ok)adminView();else alert('Lỗi: '+(r.error||''))}catch(e){alert('Không kết nối được máy chủ.')}});
+}
+function tabRes(b,d){
+ const list=d.results.filter(r=>!ADM.sel||r.username===ADM.sel).sort((a,c)=>+c.ts-+a.ts).slice(0,300);
+ b.innerHTML=`<div class="card2"><label>Lọc: <select id="fsel">${userOpts(d,ADM.sel)}</select></label><div style="overflow:auto"><table class="tbl"><tr><th>Thời điểm</th><th>Học sinh</th><th>Đề</th><th>Điểm</th><th>Thời gian làm / cho phép</th><th>Phần yếu</th></tr>${list.map(r=>{const tp=parseTopics(r),w=Object.keys(tp).filter(k=>tp[k][1]&&tp[k][0]/tp[k][1]<.6).map(tname);return`<tr><td>${fdt(r.ts)}</td><td>${esc(r.name)}<div class="small">${esc(r.username)}</div></td><td>${esc(r.title)}</td><td><b>${r.score}</b>/10</td><td>${fmtDur(r.seconds)} / ${Math.round(r.allowed/60)} phút${(r.timeout===true||r.timeout==='TRUE')?' ⏰ <i>hết giờ</i>':''}</td><td>${esc(w.join(', '))||'—'}</td></tr>`}).join('')||'<tr><td colspan="6">Chưa có kết quả.</td></tr>'}</table></div></div>`;
+ b.querySelector('#fsel').onchange=e=>{ADM.sel=e.target.value;renderAdmin()};
+}
+function tabLog(b,d){
+ const list=d.logs.filter(l=>(!ADM.sel||l.username===ADM.sel)&&(!ADM.evt||l.event===ADM.evt)).sort((a,c)=>+c.ts-+a.ts).slice(0,500);
+ const nm={};d.users.forEach(u=>nm[u.username]=u.name);
+ b.innerHTML=`<div class="card2"><label>Học sinh: <select id="fsel">${userOpts(d,ADM.sel)}</select></label> <label>Sự kiện: <select id="fevt"><option value="">Tất cả</option>${Object.keys(EVT).map(k=>`<option value="${k}" ${ADM.evt===k?'selected':''}>${EVT[k]}</option>`).join('')}</select></label><div style="overflow:auto"><table class="tbl"><tr><th>Thời điểm</th><th>Tài khoản</th><th>Sự kiện</th><th>Chi tiết</th></tr>${list.map(l=>`<tr><td>${fdt(l.ts)}</td><td>${esc(nm[l.username]||l.username)}<div class="small">${esc(l.username)}</div></td><td>${EVT[l.event]||esc(l.event)}</td><td>${esc(l.detail)}</td></tr>`).join('')||'<tr><td colspan="4">Chưa có nhật ký.</td></tr>'}</table></div></div>`;
+ b.querySelector('#fsel').onchange=e=>{ADM.sel=e.target.value;renderAdmin()};
+ b.querySelector('#fevt').onchange=e=>{ADM.evt=e.target.value;renderAdmin()};
+}
+function tabChart(b,d,per){
+ const days=[];for(let i=13;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);days.push({key:dayKey(x.getTime()),label:String(x.getDate()).padStart(2,'0')+'/'+String(x.getMonth()+1).padStart(2,'0')})}
+ const items=days.map(dd=>({label:dd.label,value:Math.round(d.activity.filter(a=>+a.day===dd.key&&(!ADM.sel||a.username===ADM.sel)).reduce((s,a)=>s+ +a.minutes,0))}));
+ const ps=Object.values(per);
+ b.innerHTML=`<div class="card2"><h3>⏱ Thời gian học 14 ngày gần đây (phút)</h3><label>Xem: <select id="fsel">${userOpts(d,ADM.sel)}</select></label>${vbar(items,'phút')}</div>
+ <div class="card2"><h3>🧑‍🎓 Tổng thời gian học theo học sinh (phút)</h3>${hbar(ps.map(p=>({label:p.u.name,value:Math.round(p.study)})),v=>fmtMin(v))}</div>
+ <div class="card2"><h3>🎯 Điểm trung bình theo học sinh (thang 10)</h3>${hbar(ps.filter(p=>p.attempts).map(p=>({label:p.u.name,value:Math.round(p.sum/p.attempts*10)/10})),v=>v,10)}</div>
+ <div class="card2"><h3>📝 Thời gian làm bài theo học sinh</h3>${hbar(ps.map(p=>({label:p.u.name,value:Math.round(p.sec/60)})),v=>fmtMin(v))}</div>`;
+ b.querySelector('#fsel').onchange=e=>{ADM.sel=e.target.value;renderAdmin()};
+}
+function tabAdd(b){
+ b.innerHTML=`<div class="card2"><h3>➕ Tạo tài khoản học sinh</h3><div class="addf"><input id="au" placeholder="Tên đăng nhập (vd: an01)"><input id="an" placeholder="Họ và tên"><input id="ap" placeholder="Mật khẩu (≥ 4 ký tự)"><button class="btn green" id="ago">Tạo</button></div><div id="amsg" class="lerr"></div><p class="small">Tên đăng nhập gồm chữ thường không dấu, số, dấu _ hoặc . (3–20 ký tự). Em có thể tự đổi mật khẩu bằng nút 🔑 sau khi đăng nhập.</p></div>`;
+ b.querySelector('#ago').onclick=async()=>{
+  const u=b.querySelector('#au').value.trim().toLowerCase(),n=b.querySelector('#an').value.trim(),p=b.querySelector('#ap').value,m=b.querySelector('#amsg');
+  if(!/^[a-z0-9_.]{3,20}$/.test(u)){m.textContent='Tên đăng nhập chưa hợp lệ.';return}
+  if(!n){m.textContent='Hãy nhập họ tên.';return}
+  if(p.length<4){m.textContent='Mật khẩu cần ít nhất 4 ký tự.';return}
+  m.textContent='⏳ Đang tạo…';
+  try{const r=await api('addUser',{u:{username:u,name:n,hash:await hashOf(u,p)}});if(r.ok){ADM.tab='stu';adminView()}else m.textContent='❌ '+(r.error||'Lỗi')}catch(e){m.textContent='❌ Không kết nối được máy chủ.'}
+ };
+}
+
 let S={ex:null,variant:0,qs:[],done:false};
-const best=id=>+localStorage.getItem('toan4_best_'+id)||null;
+const best=id=>+localStorage.getItem(UK('best_'+id))||null;
 const stars=s=>s>=9?3:s>=7?2:s>=5?1:0;
 const starTxt=n=>'★'.repeat(n)+'☆'.repeat(3-n);
 const BADGE={first:['🎒','Bước đầu tiên','Hoàn thành 1 đề'],pro:['🏆','Xuất sắc','Đạt từ 9 điểm trở lên'],full:['💯','Điểm 10','Đạt 10 điểm tròn'],all:['🌈','Chinh phục 3 đề','Hoàn thành cả 3 đề'],improve:['📈','Tiến bộ','Làm lại và đạt điểm cao hơn lần trước'],practice:['💪','Chăm luyện','Đạt từ 70% bài củng cố']};
 Object.keys(TOPICS).forEach(k=>BADGE['m_'+k]=[TOPICS[k].icon,'Giỏi: '+TOPICS[k].name,'Làm đúng hết các câu của phần này']);
-const myBadges=()=>{try{return JSON.parse(localStorage.getItem('toan4_badges')||'[]')}catch(e){return[]}};
-function award(ids){const have=myBadges(),nw=ids.filter(i=>BADGE[i]&&!have.includes(i));if(nw.length)localStorage.setItem('toan4_badges',JSON.stringify(have.concat(nw)));return nw}
+const myBadges=()=>{try{return JSON.parse(localStorage.getItem(UK('badges'))||'[]')}catch(e){return[]}};
+function award(ids){const have=myBadges(),nw=ids.filter(i=>BADGE[i]&&!have.includes(i));if(nw.length)localStorage.setItem(UK('badges'),JSON.stringify(have.concat(nw)));return nw}
 const badgeHTML=(ids,all)=>Object.keys(BADGE).filter(i=>all||ids.includes(i)).map(i=>`<span class="bdg ${ids.includes(i)?'':'off'}" title="${BADGE[i][2]}"><i>${BADGE[i][0]}</i>${BADGE[i][1]}</span>`).join('');
 
 function home(){
+ clearInterval(S.timer);renderWho();
  homeBtn.style.display='none';app.innerHTML='';
  app.append(h('div','hero',`<div style="font-size:3rem">📚✨</div><h2>Chào bạn! Chọn một đề để luyện nhé</h2><p>Mỗi đề có 14–15 câu. Làm xong bấm <b>Nộp bài</b> để xem điểm, lời giải và bài luyện tập riêng cho bạn.</p>`));
  const g=h('div','grid');
@@ -445,18 +692,18 @@ function home(){
  app.append(g);
  const mb=myBadges();app.append(h('div','shelf',`<b>🎖️ Bộ sưu tập huy hiệu (${mb.length}/${Object.keys(BADGE).length})</b><div>${badgeHTML(mb,true)}</div><div class="best">Di chuột vào huy hiệu để xem cách nhận.</div>`));
 }
-homeBtn.onclick=home;
+homeBtn.onclick=()=>SES&&SES.role==='admin'?adminView():home();
 
 function start(ex,variant){
- S={ex,variant,qs:makeExam(ex,variant),done:false};
+ clearInterval(S.timer);S={ex,variant,qs:makeExam(ex,variant),done:false};S.allowed=S.qs.reduce((a,q)=>a+qMin(q),0)*60;S.t0=Date.now();
  homeBtn.style.display='';app.innerHTML='';window.scrollTo(0,0);
- app.append(h('div','hero',`<h2>${ex.icon} ${ex.title}${variant?' (số liệu mới #'+variant+')':''}</h2><p>Khoanh/chọn/điền đáp án. Cố gắng hết sức nhé! 💪</p>`));
- const bar=h('div','bar',`<b id="pc">0/${S.qs.length}</b><div class="track"><div class="fill" id="pf"></div></div><span>câu đã làm</span>`);
+ app.append(h('div','hero',`<h2>${ex.icon} ${ex.title}${variant?' (số liệu mới #'+variant+')':''}</h2><p>Khoanh/chọn/điền đáp án. Cố gắng hết sức nhé! 💪</p><p>⏱ Thời gian làm bài: <b>${Math.round(S.allowed/60)} phút</b> (trắc nghiệm 2 phút/câu, điền số 3 phút/câu, bài lời văn và đặt tính 5 phút/câu). Hết giờ bài sẽ tự nộp.</p>`));
+ const bar=h('div','bar',`<b id="pc">0/${S.qs.length}</b><div class="track"><div class="fill" id="pf"></div></div><span>câu đã làm</span><span class="timer" id="tm">⏱ --:--</span>`);
  app.append(bar);
  const list=h('div');list.id='qs';app.append(list);
  S.qs.forEach((q,i)=>renderQ(q,i,list,'e'));
  const sub=h('div','sub','<button class="btn green" id="submit">✅ Nộp bài</button>');app.append(sub);
- document.getElementById('submit').onclick=submit;
+ document.getElementById('submit').onclick=()=>submit(false);startTimer();queue('log',{event:'start_exam',detail:ex.title});
  app.addEventListener('input',upd);app.addEventListener('change',upd);
 }
 function upd(){
@@ -521,18 +768,18 @@ function reveal(q,g){
 function summarize(qs,gs){
  const t={};qs.forEach((q,i)=>{const o=t[q.topic]||(t[q.topic]={got:0,n:0});o.got+=gs[i].score;o.n++});return t;
 }
-function submit(){
+function submit(auto){
  const un=S.qs.filter(q=>!q.answered()).length;
- if(un&&!confirm(`Còn ${un} câu chưa làm xong. Em vẫn muốn nộp bài chứ?`))return;
- S.done=true;
+ if(!auto&&un&&!confirm(`Còn ${un} câu chưa làm xong. Em vẫn muốn nộp bài chứ?`))return;
+ S.done=true;clearInterval(S.timer);S.elapsed=Math.min(S.allowed,Math.round((Date.now()-S.t0)/1000));S.timeout=!!auto;
  const gs=S.qs.map(q=>q.grade());S.qs.forEach((q,i)=>reveal(q,gs[i]));
  const total=gs.reduce((a,g)=>a+g.score,0),score=Math.round(total/S.qs.length*100)/10;
- const prev=best(S.ex.id);const nb=[];if(prev==null)nb.push('first');else if(score>prev)nb.push('improve');if(score>=9)nb.push('pro');if(score>=10)nb.push('full');if(!best(S.ex.id)||score>best(S.ex.id))localStorage.setItem('toan4_best_'+S.ex.id,score);
- const t=summarize(S.qs,gs);Object.keys(t).forEach(k=>{if(t[k].got>=t[k].n-.001)nb.push('m_'+k)});if(EXAMS.every(e=>best(e.id)!=null))nb.push('all');const newB=award(nb);const keys=Object.keys(t).map(k=>({k,p:t[k].got/t[k].n}));
+ const prev=best(S.ex.id);const nb=[];if(prev==null)nb.push('first');else if(score>prev)nb.push('improve');if(score>=9)nb.push('pro');if(score>=10)nb.push('full');if(!best(S.ex.id)||score>best(S.ex.id))localStorage.setItem(UK('best_'+S.ex.id),score);
+ const t=summarize(S.qs,gs);Object.keys(t).forEach(k=>{if(t[k].got>=t[k].n-.001)nb.push('m_'+k)});if(EXAMS.every(e=>best(e.id)!=null))nb.push('all');const newB=award(nb);sendResult(score,t);const keys=Object.keys(t).map(k=>({k,p:t[k].got/t[k].n}));
  const good=keys.filter(x=>x.p>=.8),mid=keys.filter(x=>x.p>=.5&&x.p<.8),low=keys.filter(x=>x.p<.5),weak=low.concat(mid);
  const msg=score>=9?'🏆 Xuất sắc! Em thật tuyệt vời!':score>=8?'🌟 Giỏi lắm! Chỉ cần chú ý thêm một chút nữa thôi.':score>=6.5?'👍 Khá tốt! Em hãy xem lại các phần bên dưới.':score>=5?'🙂 Em đã cố gắng! Hãy ôn lại những phần còn yếu nhé.':'💪 Đừng nản! Đọc lời giải và luyện tập thêm, em sẽ tiến bộ nhanh thôi.';
  const row=x=>{const c=x.p>=.8?'good':x.p>=.5?'mid':'low',lb=x.p>=.8?'Tốt':x.p>=.5?'Cần chú ý':'Cần ôn thêm';return`<div class="tbar ${c}"><span class="nm">${TOPICS[x.k].icon} ${TOPICS[x.k].name}</span><div class="tr"><i style="width:${Math.max(4,x.p*100)}%"></i></div><span class="tag">${lb} · ${Math.round(t[x.k].got*10)/10}/${t[x.k].n}</span></div>`};
- const res=h('div','result',`<div class="score"><div class="circle" style="--p:${score*10}"><b>${score}</b><span>/ 10 điểm</span></div><div><h2 style="margin:0">${msg}</h2><p style="margin:4px 0">Đúng hoàn toàn: ${gs.filter(g=>g.score>=.999).length}/${S.qs.length} câu · 🏆 Điểm cao nhất: ${best(S.ex.id)}/10</p></div></div>
+ const res=h('div','result',`<div class="score"><div class="circle" style="--p:${score*10}"><b>${score}</b><span>/ 10 điểm</span></div><div><h2 style="margin:0">${msg}</h2><p style="margin:4px 0">Đúng hoàn toàn: ${gs.filter(g=>g.score>=.999).length}/${S.qs.length} câu · 🏆 Điểm cao nhất: ${best(S.ex.id)}/10</p><p style="margin:4px 0">⏱ Thời gian làm bài: <b>${fmtDur(S.elapsed)}</b> / ${Math.round(S.allowed/60)} phút${S.timeout?' – <b>⏰ Hết giờ, bài được tự nộp</b>':''}</p></div></div>
  <h3>📊 Kết quả theo từng phần</h3>${keys.map(row).join('')}
  ${good.length?`<div class="panel g"><b>😀 Em làm tốt:</b> ${good.map(x=>TOPICS[x.k].name).join('; ')}. Hãy tiếp tục giữ vững nhé!</div>`:''}
  ${weak.length?`<div class="panel w"><b>🧐 Em cần rút kinh nghiệm:</b><ul>${weak.map(x=>`<li><b>${TOPICS[x.k].name}:</b> ${TOPICS[x.k].tip}</li>`).join('')}</ul></div>`:'<div class="panel g">🎉 Không có phần nào yếu! Em có thể thử Đề khác hoặc làm lại với số liệu mới.</div>'}
@@ -562,7 +809,7 @@ function buildPractice(weak){
   pr.querySelector('#more').onclick=gen;
  };
 }
-home();
+boot();
 </script>
 </body>
 </html>
