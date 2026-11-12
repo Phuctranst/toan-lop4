@@ -89,13 +89,17 @@ Hệ thống sử dụng 1 file Google Spreadsheet riêng tư gồm 4 sheet:
 ### 1.3. Các tính năng cốt lõi đã hoàn thiện & bài học kinh nghiệm
 
 1. **Thuật toán sinh số liệu ngẫu nhiên (Pseudo-Random Generator with Seed)**:
-   - Dùng thuật toán PRNG (như Mulberry32 / SplitMix32) nhận vào `seed` để mỗi lần nhấn "Làm lại với số liệu mới", hệ thống tự tạo ra đề thi hoàn toàn mới với các con số ngẫu nhiên hợp lý (không bị số âm, không bị chia lẻ khi chưa học số thập phân).
+   - Dùng thuật toán PRNG (như Mulberry32 / SplitMix32) nhận vào `seed` kết hợp cùng `loginSeed` ngẫu nhiên sinh ra sau mỗi phiên đăng nhập của học sinh. Nhờ đó, mỗi lần đăng nhập mới hoặc nhấn "Làm lại với số liệu mới", hệ thống tự tạo ra đề thi hoàn toàn khác biệt với các con số ngẫu nhiên hợp lý (không bị số âm, không bị chia lẻ khi chưa học số thập phân).
    - **Kinh nghiệm:** Luôn phải sinh ít nhất 4 lựa chọn khác biệt cho câu hỏi trắc nghiệm (MCQ). Phải có cơ chế bù trừ đáp án nhiễu (distractors) để tránh trường hợp trùng lặp đáp án.
 
-2. **Thiết kế giao diện Điều hướng bài thi (Sticky Navigation Panel)**:
-   - Desktop: Cố định bên cạnh phải bài thi, căn giữa toàn bộ khối làm bài trên màn hình lớn.
-   - Mobile: Co nhỏ thành thanh điều hướng 1 dòng ở đầu trang (`sticky`), đặt dưới header, có thanh cuộn ngang các ô câu hỏi, đồng hồ canh sát phải và nhãn trạng thái bên trái.
-   - Nút nộp bài: Đặt ở cuối trang, tránh để trên thanh điều hướng di động để học sinh không bấm nhầm.
+2. **Thiết kế giao diện Điều hướng bài thi & Tối ưu Mobile (Responsive Spec)**:
+   - **Header trên Desktop:** Nút Trang chủ + Tên học sinh bên trái, Tiêu đề căn giữa, Nút Đăng xuất bên phải.
+   - **Header trên Mobile:** Tự động xếp thành 3 hàng chuẩn:
+     + Hàng 1: Nút [🏠 Trang chủ] (canh lề Trái) và Nút [Đăng xuất] (canh lề Phải).
+     + Hàng 2: Tên học sinh [👤 Tên] và icon đổi mật khẩu [🔑] căn giữa.
+     + Hàng 3: Tiêu đề môn học [🎒 Ôn tập...] căn giữa.
+   - **Nội dung câu hỏi trên Mobile:** Chiếm 100% chiều ngang màn hình (`width: 100%`), không bị thu nhỏ hoặc chừa dải trống hai bên lề.
+   - **Khung Điều hướng bài thi (Sticky Navigation):** Desktop cố định bên phải; Mobile thu nhỏ thành thanh 1 dòng cuộn ngang ô câu hỏi và đồng hồ canh sát phải. Nút nộp bài đặt ở cuối trang.
 
 3. **Bảo mật và Phân quyền**:
    - Mật khẩu không bao giờ lưu dưới dạng văn bản thô (Plain text).
@@ -158,13 +162,18 @@ BƯỚC 3: TIÊU CHUẨN THIẾT KẾ KỸ THUẬT & GIAO DIỆN (UI/UX)
    - Tông màu sáng, tích cực dành cho giáo dục tiểu học: Nền pastel gradient (#fff8e1 -> #e3f6ff), viền bo tròn lớn (border-radius 16-24px), bóng đổ mềm mại, font chữ hiện đại (Nunito, Quicksand, Segoe UI).
    - Màu phản hồi trực quan: Xanh lá (#51cf66) cho đúng/thành công, Đỏ mềm (#ff6b6b) cho câu sai, Vàng cam (#ffa94d) cho đúng 1 phần/cần chú ý.
 2. THANH TIÊU ĐỀ (HEADER):
-   - Bên trái: Nút [🏠 Trang chủ], Tên học sinh đăng nhập, Nút [🔑 Đổi mật khẩu]. Tất cả đều dạng viên thuốc (pill), chiều cao đồng bộ 36px.
-   - Ở giữa: Tiêu đề trang thi (Căn giữa cân đối).
-   - Bên phải: Nút [Đăng xuất].
-3. KHUNG ĐIỀU HƯỚNG BÀI THI (NAVIGATION PANEL):
-   - Màn hình rộng (PC/Laptop): Nằm cố định bên phải bài thi, căn giữa toàn bộ trang web cân đối 2 bên lề. Gồm: Đồng hồ đếm ngược, Số câu đã làm, Ma trận các nút số câu (câu đã làm đổi màu xanh, câu chưa làm màu trắng), bấm nút để cuộn mượt đến câu đó kèm hiệu ứng nhấp nháy viền vàng nhận diện.
-   - Màn hình hẹp (Điện thoại/Tablet): Tự động co gọn thành thanh 1 dòng cố định dưới header, có nhãn "📋 Bài thi", số câu đã làm, thanh cuộn ngang các ô số câu, và đồng hồ đếm ngược canh sát mép phải. Không bị đè lên header khi cuộn trang.
-4. GAME HÓA ĐỘNG VIÊN TRẺ (GAMIFICATION):
+   - Desktop: Bên trái gồm Nút [🏠 Trang chủ], Tên học sinh đăng nhập, Nút [🔑 Đổi mật khẩu] (dạng viên thuốc pill 36px); Ở giữa là Tiêu đề môn học; Bên phải là Nút [Đăng xuất].
+   - Mobile: Tự động xuống 3 hàng cân đối, không tràn ngang:
+     + Hàng 1: Nút [🏠 Trang chủ] canh lề Trái, Nút [Đăng xuất] canh lề Phải.
+     + Hàng 2: Tên học sinh [👤 Tên] và icon đổi mật khẩu [🔑] căn giữa.
+     + Hàng 3: Nội dung môn học căn giữa.
+3. KHUNG BÀI THI & ĐIỀU HƯỚNG (RESPONSIVE SPEC):
+   - Màn hình mobile: Các thẻ câu hỏi và nội dung thi hiển thị trọn vẹn 100% chiều ngang màn hình (không bị co hẹp hay zoom out để lại khoảng trống 2 bên).
+   - Khung điều hướng (PC/Laptop): Cố định bên phải bài thi, căn giữa toàn bộ trang web cân đối 2 bên lề.
+   - Khung điều hướng (Mobile): Co gọn thành thanh 1 dòng cố định dưới header, có nhãn "📋 Bài thi", số câu đã làm, thanh cuộn ngang các ô số câu, và đồng hồ đếm ngược canh sát mép phải.
+4. TỰ ĐỘNG LÀM MỚI BÀI TẬP:
+   - Mỗi lần đăng nhập mới hoặc ấn "Làm lại với số liệu mới", hệ thống tự động sinh số ngẫu nhiên mới cho toàn bộ các đề thi, không bị lặp lại đề cũ.
+5. GAME HÓA ĐỘNG VIÊN TRẺ (GAMIFICATION):
    - Hệ thống đánh giá 3 Sao: 5 điểm đạt 1 sao (★☆☆), 7 điểm đạt 2 sao (★★☆), 9 điểm đạt 3 sao (★★★).
    - Bộ sưu tập Huy hiệu (Badges Shelf): Hiển thị huy hiệu đạt được và huy hiệu còn mờ kèm điều kiện mở khóa (Bước đầu tiên, Điểm 10, Xuất sắc, Tiến bộ, Chăm luyện, Bậc thầy từng dạng bài).
 
