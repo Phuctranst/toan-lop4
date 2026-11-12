@@ -5,6 +5,7 @@
  */
 const SALT = 'toan4-kntt-';              // PHẢI giống hằng SALT trong index.html
 const ADMIN_PASSWORD = 'admin123';       // <<< ĐỔI mật khẩu quản trị tại đây (tài khoản: admin)
+const SHEET_ID = '11Dm0dKL79OFVFAdMU5n6zDe9CZEhdTKZYDkaPzFJLso';
 const TZ = 'Asia/Ho_Chi_Minh';
 const SHEETS = {
   Users:    ['username', 'name', 'hash', 'profile', 'created', 'lastLogin'],
@@ -14,7 +15,7 @@ const SHEETS = {
 };
 
 function sh(name) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById(SHEET_ID);
   let s = ss.getSheetByName(name);
   if (!s) {
     s = ss.insertSheet(name);

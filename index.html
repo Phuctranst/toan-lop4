@@ -448,7 +448,7 @@ const h=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=
 /* ================= TÀI KHOẢN, MÁY CHỦ, HẸN GIỜ, QUẢN TRỊ ================= */
 /* Dán địa chỉ Web App của Google Apps Script vào giữa hai dấu nháy (xem HUONG_DAN.md).
    Để trống = lưu tạm trong trình duyệt của máy này (chế độ thử nghiệm). */
-const API_URL='';
+const API_URL='https://script.google.com/macros/s/AKfycbxgmTIlmjydGomfKbLV6QVaGMXtzoqWPup7iNPMYNMdNvhvDr4prYnBsDJIdc9LBY3rPw/exec';
 const SALT='toan4-kntt-';
 let SES=null;try{SES=JSON.parse(sessionStorage.getItem('toan4_ses')||'null')}catch(e){}
 const UK=k=>'toan4_'+(SES?SES.user:'x')+'_'+k;
