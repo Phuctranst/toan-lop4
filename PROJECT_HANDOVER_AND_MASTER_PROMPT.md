@@ -1,6 +1,6 @@
 # 📦 HỒ SƠ ĐÓNG GÓI DỰ ÁN & MASTER PROMPT XÂY DỰNG NỀN TẢNG LUYỆN THI TƯƠNG TÁC TIỂU HỌC
 
-> **Phiên bản:** 2.0 (Bản chuẩn hóa chuyển giao đa mô hình)  
+> **Phiên bản:** 2.1 (Bản chuẩn hóa chuyển giao đa mô hình – Đã tối ưu Mobile Sticky Timer & WebKit)  
 > **Áp dụng cho:** Tất cả các mô hình AI (Claude, GPT-4o, Gemini, DeepSeek,...)  
 > **Dự án gốc tham chiếu:** [Toán Lớp 4 - Học mà vui (GitHub Pages)](https://phuctranst.github.io/toan-lop4/)
 
@@ -92,14 +92,17 @@ Hệ thống sử dụng 1 file Google Spreadsheet riêng tư gồm 4 sheet:
    - Dùng thuật toán PRNG (như Mulberry32 / SplitMix32) nhận vào `seed` kết hợp cùng `loginSeed` ngẫu nhiên sinh ra sau mỗi phiên đăng nhập của học sinh. Nhờ đó, mỗi lần đăng nhập mới hoặc nhấn "Làm lại với số liệu mới", hệ thống tự tạo ra đề thi hoàn toàn khác biệt với các con số ngẫu nhiên hợp lý (không bị số âm, không bị chia lẻ khi chưa học số thập phân).
    - **Kinh nghiệm:** Luôn phải sinh ít nhất 4 lựa chọn khác biệt cho câu hỏi trắc nghiệm (MCQ). Phải có cơ chế bù trừ đáp án nhiễu (distractors) để tránh trường hợp trùng lặp đáp án.
 
-2. **Thiết kế giao diện Điều hướng bài thi & Tối ưu Mobile (Responsive Spec)**:
+2. **Thiết kế giao diện Điều hướng bài thi & Tối ưu Mobile (Responsive & WebKit Sticky Spec)**:
    - **Header trên Desktop:** Nút Trang chủ + Tên học sinh bên trái, Tiêu đề căn giữa, Nút Đăng xuất bên phải.
-   - **Header trên Mobile:** Tự động xếp thành 3 hàng chuẩn:
+   - **Header trên Mobile:** Tự động xếp thành 3 hàng gọn gàng (~82px):
      + Hàng 1: Nút [🏠 Trang chủ] (canh lề Trái) và Nút [Đăng xuất] (canh lề Phải).
      + Hàng 2: Tên học sinh [👤 Tên] và icon đổi mật khẩu [🔑] căn giữa.
      + Hàng 3: Tiêu đề môn học [🎒 Ôn tập...] căn giữa.
    - **Nội dung câu hỏi trên Mobile:** Chiếm 100% chiều ngang màn hình (`width: 100%`), không bị thu nhỏ hoặc chừa dải trống hai bên lề.
-   - **Khung Điều hướng bài thi (Sticky Navigation):** Desktop cố định bên phải; Mobile thu nhỏ thành thanh 1 dòng cuộn ngang ô câu hỏi và đồng hồ canh sát phải. Nút nộp bài đặt ở cuối trang.
+   - **Khung Điều hướng bài thi (Sticky Navigation):** Desktop cố định bên phải; Mobile thu nhỏ thành thanh 1 dòng (`backdrop-filter: blur(6px)`) cuộn ngang ô câu hỏi (`min-width: 0; -webkit-overflow-scrolling: touch`) và đồng hồ đếm ngược canh sát phải. Nút nộp bài đặt ở cuối trang.
+   - **Kinh nghiệm kỹ thuật Sticky trên iOS Safari / Mobile WebKit (Rất quan trọng):**
+     + **Tuyệt đối KHÔNG dùng `overflow-x: hidden` trên `html, body`**, vì trên iOS Safari/WebKit nó tạo scroll container phụ và vô hiệu hóa hoàn toàn `position: sticky` của các phần tử con. Phải dùng `overflow-x: clip` trên `body` và luôn khai báo `position: -webkit-sticky; position: sticky;`.
+     + **Đồng bộ chiều cao Header động (`ResizeObserver`):** Dùng `ResizeObserver` theo dõi `header.top` để cập nhật biến CSS `--hh` chính xác theo thời gian thực khi header xuống dòng/xoay màn hình, đảm bảo thanh đếm giờ ghim chuẩn xác tại `top: calc(var(--hh) + 4px)` với `z-index` phân cấp (`header`: 100, `navp`: 90), không bao giờ bị trôi mất hay che khuất.
 
 3. **Bảo mật và Phân quyền**:
    - Mật khẩu không bao giờ lưu dưới dạng văn bản thô (Plain text).
@@ -167,10 +170,14 @@ BƯỚC 3: TIÊU CHUẨN THIẾT KẾ KỸ THUẬT & GIAO DIỆN (UI/UX)
      + Hàng 1: Nút [🏠 Trang chủ] canh lề Trái, Nút [Đăng xuất] canh lề Phải.
      + Hàng 2: Tên học sinh [👤 Tên] và icon đổi mật khẩu [🔑] căn giữa.
      + Hàng 3: Nội dung môn học căn giữa.
-3. KHUNG BÀI THI & ĐIỀU HƯỚNG (RESPONSIVE SPEC):
+3. KHUNG BÀI THI & ĐIỀU HƯỚNG (RESPONSIVE & STICKY SPEC):
    - Màn hình mobile: Các thẻ câu hỏi và nội dung thi hiển thị trọn vẹn 100% chiều ngang màn hình (không bị co hẹp hay zoom out để lại khoảng trống 2 bên).
    - Khung điều hướng (PC/Laptop): Cố định bên phải bài thi, căn giữa toàn bộ trang web cân đối 2 bên lề.
-   - Khung điều hướng (Mobile): Co gọn thành thanh 1 dòng cố định dưới header, có nhãn "📋 Bài thi", số câu đã làm, thanh cuộn ngang các ô số câu, và đồng hồ đếm ngược canh sát mép phải.
+   - Khung điều hướng & Thanh đếm giờ (Mobile): Co gọn thành thanh 1 dòng cố định sát ngay dưới header khi cuộn xuống (nền kính mờ `backdrop-filter: blur`), gồm icon 📋, số câu đã làm, thanh cuộn ngang các ô số câu (`min-width: 0; -webkit-overflow-scrolling: touch`), và đồng hồ đếm ngược canh sát mép phải.
+   - Ràng buộc kỹ thuật bắt buộc cho Sticky trên iOS/Android:
+     + Tuyệt đối KHÔNG đặt `overflow-x: hidden` trên `html, body` (sẽ làm hỏng `position: sticky` trên iOS Safari/WebKit); chỉ dùng `overflow-x: clip` trên `body`.
+     + Luôn khai báo `position: -webkit-sticky; position: sticky;` và phân cấp `z-index` rõ ràng (`header` > `thanh đếm giờ`).
+     + Dùng `ResizeObserver` theo dõi chiều cao thực tế của header để cập nhật biến CSS `--hh` theo thời gian thực (`top: calc(var(--hh) + 4px)`), đảm bảo thanh đếm giờ luôn ghim chuẩn xác đầu trang trên mọi thiết bị.
 4. TỰ ĐỘNG LÀM MỚI BÀI TẬP:
    - Mỗi lần đăng nhập mới hoặc ấn "Làm lại với số liệu mới", hệ thống tự động sinh số ngẫu nhiên mới cho toàn bộ các đề thi, không bị lặp lại đề cũ.
 5. GAME HÓA ĐỘNG VIÊN TRẺ (GAMIFICATION):
